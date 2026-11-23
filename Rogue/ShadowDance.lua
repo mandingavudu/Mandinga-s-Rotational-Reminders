@@ -4,8 +4,8 @@ local SUBTLETY = 261
 local SHADOW_DANCE = 185313
 local SHADOW_DANCE_AURA = 185422
 local SHADOW_BLADES = 121471
-local CDM_SOUND_SUBTYPE = "Gameplay SFX"
-local TEXT_TO_SPEECH = Enum.CooldownViewerSound.TextToSpeech
+
+addon.shadowDanceSpellID = SHADOW_DANCE
 
 local viewerNames = { "BuffIconCooldownViewer", "BuffBarCooldownViewer" }
 local hookedViewers = setmetatable({}, { __mode = "k" })
@@ -125,41 +125,6 @@ local function ReadShadowDance()
     end
 end
 
-function addon.GetShadowDanceName()
-    local name = C_Spell.GetSpellName(SHADOW_DANCE)
-    if not issecretvalue(name) and name and name ~= "" then
-        return name
-    end
-end
-
-local function PlayDanceAlert()
-    local sound = addon.settings.shadowDanceSound
-    if sound ~= TEXT_TO_SPEECH and CooldownViewerUtil then
-        local soundKit = CooldownViewerUtil.GetSoundTypeSoundKit(sound)
-        if soundKit then
-            C_Sound.PlaySoundWithOptions({ soundKitID = soundKit, uiSoundSubType = CDM_SOUND_SUBTYPE })
-            return
-        end
-    end
-
-    local name = addon.GetShadowDanceName()
-    if not name then
-        return
-    end
-
-    if CooldownViewerAlert_PlayAlert then
-        local alert = CooldownViewerAlert_Create(Enum.CooldownViewerAlertType.Sound,
-            Enum.CooldownViewerAlertEventType.OnAuraRemoved, TEXT_TO_SPEECH)
-        CooldownViewerAlert_PlayAlert(nil, name, alert, CDM_SOUND_SUBTYPE)
-        return
-    end
-
-    local voice = TextToSpeech_GetSelectedVoice and TextToSpeech_GetSelectedVoice(Enum.TtsVoiceType.Standard)
-    if voice then
-        C_VoiceChat.SpeakText(voice.voiceID, name, C_TTSSettings.GetSpeechRate(), C_TTSSettings.GetSpeechVolume(), true)
-    end
-end
-
 local Update
 local function QueueSample()
     if tracking and not sampleQueued then
@@ -237,7 +202,8 @@ Update = function()
         and previousBlades == true and blades == true
     previousDance, previousBlades, previousFromViewer = dance, blades, fromViewer
     if shouldAlert then
-        PlayDanceAlert()
+        addon.PlayReminderSound(addon.settings.shadowDanceSound, SHADOW_DANCE,
+            Enum.CooldownViewerAlertEventType.OnAuraRemoved)
     end
 end
 

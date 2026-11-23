@@ -5,36 +5,29 @@ local isPortuguese = GetLocale() == "ptBR"
 local textToSpeechLabel = COOLDOWN_VIEWER_SETTINGS_ALERT_LABEL_SOUND_TYPE_TEXT_TO_SPEECH or TEXT_TO_SPEECH_LABEL
     or (isPortuguese and "Síntese de voz" or "Text-to-Speech")
 
-local function RegisterOptions()
-    if type(MandingasRotationalRemindersDB) ~= "table" then
-        MandingasRotationalRemindersDB = {}
+local function RegisterReminder(category, layout, reminder)
+    local settings = addon.settings
+    local enabledKey = reminder.key .. "Enabled"
+    local soundKey = reminder.key .. "Sound"
+    local variable = addonName .. "_" .. reminder.variable
+    if type(settings[enabledKey]) ~= "boolean" then
+        settings[enabledKey] = true
     end
-    local settings = MandingasRotationalRemindersDB
-    if type(settings.shadowDanceEnabled) ~= "boolean" then
-        settings.shadowDanceEnabled = true
+    if type(settings[soundKey]) ~= "number" then
+        settings[soundKey] = TEXT_TO_SPEECH
     end
-    if type(settings.shadowDanceSound) ~= "number" then
-        settings.shadowDanceSound = TEXT_TO_SPEECH
-    end
-    addon.settings = settings
+    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(reminder.section))
 
-    local category, layout = Settings.RegisterVerticalLayoutCategory("Mandinga's Rotational Reminders")
-    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(
-        isPortuguese and "Ladino de Subterfúgio" or "Subtlety Rogue"))
-
-    local spellName = addon.GetShadowDanceName() or (isPortuguese and "Dança das Sombras" or "Shadow Dance")
+    local spellName = addon.GetReminderSpellName(reminder.spellID) or reminder.fallbackName
     local enabledLabel = (isPortuguese and "Ativar lembrete de %s" or "Enable %s reminder"):format(spellName)
-    local enabledSetting = Settings.RegisterAddOnSetting(category, addonName .. "_SHADOW_DANCE_ENABLED",
-        "shadowDanceEnabled", settings, Settings.VarType.Boolean, enabledLabel, true)
-    local enabledTooltip = isPortuguese
-        and "Toca um aviso quando Dança das Sombras termina e o efeito de Lâminas Sombrias permanece ativo."
-        or "Plays an alert when Shadow Dance ends while Shadow Blades is still active."
-    local enabledControl = Settings.CreateCheckbox(category, enabledSetting, enabledTooltip)
-    enabledSetting:SetValueChangedCallback(addon.RefreshShadowDanceTracking)
+    local enabledSetting = Settings.RegisterAddOnSetting(category, variable .. "_ENABLED",
+        enabledKey, settings, Settings.VarType.Boolean, enabledLabel, true)
+    local enabledControl = Settings.CreateCheckbox(category, enabledSetting, reminder.tooltip)
+    enabledSetting:SetValueChangedCallback(reminder.refreshTracking)
 
     local soundLabel = isPortuguese and "Som do aviso" or "Alert sound"
-    local soundSetting = Settings.RegisterAddOnSetting(category, addonName .. "_SHADOW_DANCE_SOUND",
-        "shadowDanceSound", settings, Settings.VarType.Number, soundLabel, TEXT_TO_SPEECH)
+    local soundSetting = Settings.RegisterAddOnSetting(category, variable .. "_SOUND",
+        soundKey, settings, Settings.VarType.Number, soundLabel, TEXT_TO_SPEECH)
     local soundControl = Settings.CreateDropdown(category, soundSetting, function()
         return {}
     end)
@@ -68,10 +61,30 @@ local function RegisterOptions()
         CooldownViewerUtil.AddSoundAlertRadio({
             text = textToSpeechLabel,
             soundEnum = TEXT_TO_SPEECH,
-            spellName = addon.GetShadowDanceName(),
+            spellName = addon.GetReminderSpellName(reminder.spellID),
         }, CreateRadio, IsSelected, SetSelected, useHighlightStyle)
         CooldownViewerUtil.BuildSoundMenus(rootDescription, IsSelected, SetSelected, useHighlightStyle)
     end
+end
+
+local function RegisterOptions()
+    if type(MandingasRotationalRemindersDB) ~= "table" then
+        MandingasRotationalRemindersDB = {}
+    end
+    addon.settings = MandingasRotationalRemindersDB
+
+    local category, layout = Settings.RegisterVerticalLayoutCategory("Mandinga's Rotational Reminders")
+    RegisterReminder(category, layout, {
+        key = "shadowDance",
+        variable = "SHADOW_DANCE",
+        spellID = addon.shadowDanceSpellID,
+        section = isPortuguese and "Ladino de Subterfúgio" or "Subtlety Rogue",
+        fallbackName = isPortuguese and "Dança das Sombras" or "Shadow Dance",
+        tooltip = isPortuguese
+            and "Toca um aviso quando Dança das Sombras termina e o efeito de Lâminas Sombrias permanece ativo."
+            or "Plays an alert when Shadow Dance ends while Shadow Blades is still active.",
+        refreshTracking = addon.RefreshShadowDanceTracking,
+    })
 
     Settings.RegisterAddOnCategory(category)
     SLASH_MANDINGASROTATIONALREMINDERS1 = "/mrr"
