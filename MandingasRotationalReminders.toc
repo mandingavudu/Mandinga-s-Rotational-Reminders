@@ -1,4 +1,7 @@
 ## Interface: 120105
 ## Title: Mandinga's Rotational Reminders
-## Notes: A collection of class- and specialization-specific rotation reminders.
+## Notes: A collection of class- and specialization-specific rotation reminders with Cooldown Manager audio alerts.
 ## Version: 1.0.0
+## OptionalDeps: Blizzard_CooldownViewer
+
+Rogue\ShadowDance.lua
