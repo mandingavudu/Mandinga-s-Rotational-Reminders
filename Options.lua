@@ -61,7 +61,7 @@ local function RegisterReminder(category, layout, reminder)
         CooldownViewerUtil.AddSoundAlertRadio({
             text = textToSpeechLabel,
             soundEnum = TEXT_TO_SPEECH,
-            spellName = addon.GetReminderSpellName(reminder.spellID),
+            spellName = addon.GetReminderSpellName(reminder.spokenSpellID or reminder.spellID),
         }, CreateRadio, IsSelected, SetSelected, useHighlightStyle)
         CooldownViewerUtil.BuildSoundMenus(rootDescription, IsSelected, SetSelected, useHighlightStyle)
     end
@@ -84,6 +84,20 @@ local function RegisterOptions()
             and "Toca um aviso quando Dança das Sombras termina e o efeito de Lâminas Sombrias permanece ativo."
             or "Plays an alert when Shadow Dance ends while Shadow Blades is still active.",
         refreshTracking = addon.RefreshShadowDanceTracking,
+    })
+    RegisterReminder(category, layout, {
+        key = "improvedGarrote",
+        variable = "IMPROVED_GARROTE",
+        spellID = addon.improvedGarroteSpellID,
+        spokenSpellID = addon.garroteSpellID,
+        section = isPortuguese and "Ladino de Assassinato" or "Assassination Rogue",
+        fallbackName = isPortuguese and "Garrote Aprimorado" or "Improved Garrote",
+        tooltip = isPortuguese
+            and "Toca um aviso 1,5 segundo antes de terminar o efeito de Garrote Aprimorado."
+                .. " A síntese de voz (TTS) usa o nome localizado da habilidade Garrote."
+            or "Plays an alert 1.5 seconds before your Improved Garrote buff expires."
+                .. " Text-to-speech (TTS) uses the localized name of the Garrote spell.",
+        refreshTracking = addon.RefreshImprovedGarroteTracking,
     })
 
     Settings.RegisterAddOnCategory(category)
