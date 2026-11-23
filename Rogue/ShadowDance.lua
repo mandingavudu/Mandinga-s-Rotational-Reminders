@@ -143,22 +143,21 @@ local function PlayDanceAlert()
     end
 
     local name = addon.GetShadowDanceName()
-    if name then
-        if CooldownViewerAlert_PlayAlert then
-            local alert = CooldownViewerAlert_Create(Enum.CooldownViewerAlertType.Sound,
-                Enum.CooldownViewerAlertEventType.OnAuraRemoved, TEXT_TO_SPEECH)
-            CooldownViewerAlert_PlayAlert(nil, name, alert, CDM_SOUND_SUBTYPE)
-            return
-        end
-
-        local voice = TextToSpeech_GetSelectedVoice and TextToSpeech_GetSelectedVoice(Enum.TtsVoiceType.Standard)
-        if voice then
-            C_VoiceChat.SpeakText(voice.voiceID, name, C_TTSSettings.GetSpeechRate(), C_TTSSettings.GetSpeechVolume(), true)
-            return
-        end
+    if not name then
+        return
     end
 
-    C_Sound.PlaySoundWithOptions({ soundKitID = SOUNDKIT.RAID_WARNING, uiSoundSubType = CDM_SOUND_SUBTYPE })
+    if CooldownViewerAlert_PlayAlert then
+        local alert = CooldownViewerAlert_Create(Enum.CooldownViewerAlertType.Sound,
+            Enum.CooldownViewerAlertEventType.OnAuraRemoved, TEXT_TO_SPEECH)
+        CooldownViewerAlert_PlayAlert(nil, name, alert, CDM_SOUND_SUBTYPE)
+        return
+    end
+
+    local voice = TextToSpeech_GetSelectedVoice and TextToSpeech_GetSelectedVoice(Enum.TtsVoiceType.Standard)
+    if voice then
+        C_VoiceChat.SpeakText(voice.voiceID, name, C_TTSSettings.GetSpeechRate(), C_TTSSettings.GetSpeechVolume(), true)
+    end
 end
 
 local Update
