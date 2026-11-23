@@ -1,7 +1,9 @@
 ## Interface: 120105
 ## Title: Mandinga's Rotational Reminders
-## Notes: A collection of class- and specialization-specific rotation reminders with spoken alerts.
+## Notes: A collection of class- and specialization-specific rotation reminders with configurable audio alerts.
 ## Version: @project-version@
 ## X-Curse-Project-ID: 1826447
+## SavedVariables: MandingasRotationalRemindersDB
 
 Rogue\ShadowDance.lua
+Options.lua

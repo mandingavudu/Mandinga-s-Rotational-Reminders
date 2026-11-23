@@ -1,8 +1,11 @@
+local _, addon = ...
+
 local SUBTLETY = 261
 local SHADOW_DANCE = 185313
 local SHADOW_DANCE_AURA = 185422
 local SHADOW_BLADES = 121471
 local CDM_SOUND_SUBTYPE = "Gameplay SFX"
+local TEXT_TO_SPEECH = Enum.CooldownViewerSound.TextToSpeech
 
 local viewerNames = { "BuffIconCooldownViewer", "BuffBarCooldownViewer" }
 local hookedViewers = setmetatable({}, { __mode = "k" })
@@ -122,12 +125,28 @@ local function ReadShadowDance()
     end
 end
 
-local function PlayDanceAlert()
+function addon.GetShadowDanceName()
     local name = C_Spell.GetSpellName(SHADOW_DANCE)
     if not issecretvalue(name) and name and name ~= "" then
+        return name
+    end
+end
+
+local function PlayDanceAlert()
+    local sound = addon.settings.shadowDanceSound
+    if sound ~= TEXT_TO_SPEECH and CooldownViewerUtil then
+        local soundKit = CooldownViewerUtil.GetSoundTypeSoundKit(sound)
+        if soundKit then
+            C_Sound.PlaySoundWithOptions({ soundKitID = soundKit, uiSoundSubType = CDM_SOUND_SUBTYPE })
+            return
+        end
+    end
+
+    local name = addon.GetShadowDanceName()
+    if name then
         if CooldownViewerAlert_PlayAlert then
             local alert = CooldownViewerAlert_Create(Enum.CooldownViewerAlertType.Sound,
-                Enum.CooldownViewerAlertEventType.OnAuraRemoved, Enum.CooldownViewerSound.TextToSpeech)
+                Enum.CooldownViewerAlertEventType.OnAuraRemoved, TEXT_TO_SPEECH)
             CooldownViewerAlert_PlayAlert(nil, name, alert, CDM_SOUND_SUBTYPE)
             return
         end
@@ -233,6 +252,22 @@ events:RegisterEvent("PLAYER_REGEN_ENABLED")
 events:RegisterEvent("ADDON_RESTRICTION_STATE_CHANGED")
 events:RegisterEvent("COOLDOWN_VIEWER_DATA_LOADED")
 
+function addon.RefreshShadowDanceTracking()
+    local _, class = UnitClass("player")
+    local spec = class == "ROGUE" and GetSpecialization()
+    local enabled = addon.settings and addon.settings.shadowDanceEnabled
+    local shouldTrack = enabled and spec and GetSpecializationInfo(spec) == SUBTLETY and not UnitIsDeadOrGhost("player")
+    if shouldTrack then
+        events:RegisterUnitEvent("UNIT_AURA", "player")
+    else
+        events:UnregisterEvent("UNIT_AURA")
+        bindings = {}
+    end
+    tracking = shouldTrack
+    previousDance, previousBlades, previousFromViewer = nil, nil, nil
+    InvalidateBindings()
+end
+
 events:SetScript("OnEvent", function(_, event, unit)
     if event == "UNIT_AURA" or event == "ADDON_RESTRICTION_STATE_CHANGED" then
         QueueSample()
@@ -256,16 +291,5 @@ events:SetScript("OnEvent", function(_, event, unit)
         return
     end
 
-    local _, class = UnitClass("player")
-    local spec = class == "ROGUE" and GetSpecialization()
-    local shouldTrack = spec and GetSpecializationInfo(spec) == SUBTLETY and not UnitIsDeadOrGhost("player")
-    if shouldTrack then
-        events:RegisterUnitEvent("UNIT_AURA", "player")
-    else
-        events:UnregisterEvent("UNIT_AURA")
-        bindings = {}
-    end
-    tracking = shouldTrack
-    previousDance, previousBlades, previousFromViewer = nil, nil, nil
-    InvalidateBindings()
+    addon.RefreshShadowDanceTracking()
 end)
