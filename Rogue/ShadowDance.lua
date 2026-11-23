@@ -11,7 +11,7 @@ local bindings = {}
 local tracking = false
 local needsDiscovery = true
 local sampleQueued = false
-local previousDance, previousBlades
+local previousDance, previousBlades, previousFromViewer
 
 local function GetTrackedSpell(spellID)
     if issecretvalue(spellID) then
@@ -97,30 +97,49 @@ local function ReadTrackedSpell(spell)
     end
 end
 
-local function PlayDanceAlert(item)
-    local ok, name = pcall(item.GetNameText, item)
-    if not ok or issecretvalue(name) or not name or name == "" then
-        name = C_Spell.GetSpellName(SHADOW_DANCE)
+local function ReadPlayerAura(spellID)
+    -- A secret aura can look absent in a spell-ID lookup.
+    if C_Secrets.ShouldSpellAuraBeSecret(spellID) then
+        return
     end
-
-    if not issecretvalue(name) and name and name ~= "" then
-        local alert = CooldownViewerAlert_Create(Enum.CooldownViewerAlertType.Sound,
-            Enum.CooldownViewerAlertEventType.OnAuraRemoved, Enum.CooldownViewerSound.TextToSpeech)
-        CooldownViewerAlert_PlayAlert(item, name, alert, CDM_SOUND_SUBTYPE)
-    else
-        C_Sound.PlaySoundWithOptions({ soundKitID = SOUNDKIT.RAID_WARNING, uiSoundSubType = CDM_SOUND_SUBTYPE })
+    local ok, aura = pcall(C_UnitAuras.GetPlayerAuraBySpellID, spellID)
+    if ok and not issecretvalue(aura) then
+        return type(aura) == "table"
     end
 end
 
-local function Sample()
-    local dance = ReadTrackedSpell(SHADOW_DANCE)
-    local blades = ReadTrackedSpell(SHADOW_BLADES)
-    -- Require Blades on both samples so a simultaneous application or loss stays quiet.
-    local shouldAlert = previousDance == true and dance == false and previousBlades == true and blades == true
-    previousDance, previousBlades = dance, blades
-    if shouldAlert then
-        PlayDanceAlert(bindings[SHADOW_DANCE].item)
+local function ReadShadowDance()
+    local aura = ReadPlayerAura(SHADOW_DANCE_AURA)
+    if aura == true then
+        return true
     end
+    local spell = ReadPlayerAura(SHADOW_DANCE)
+    if spell == true then
+        return true
+    end
+    if aura == false and spell == false then
+        return false
+    end
+end
+
+local function PlayDanceAlert()
+    local name = C_Spell.GetSpellName(SHADOW_DANCE)
+    if not issecretvalue(name) and name and name ~= "" then
+        if CooldownViewerAlert_PlayAlert then
+            local alert = CooldownViewerAlert_Create(Enum.CooldownViewerAlertType.Sound,
+                Enum.CooldownViewerAlertEventType.OnAuraRemoved, Enum.CooldownViewerSound.TextToSpeech)
+            CooldownViewerAlert_PlayAlert(nil, name, alert, CDM_SOUND_SUBTYPE)
+            return
+        end
+
+        local voice = TextToSpeech_GetSelectedVoice and TextToSpeech_GetSelectedVoice(Enum.TtsVoiceType.Standard)
+        if voice then
+            C_VoiceChat.SpeakText(voice.voiceID, name, C_TTSSettings.GetSpeechRate(), C_TTSSettings.GetSpeechVolume(), true)
+            return
+        end
+    end
+
+    C_Sound.PlaySoundWithOptions({ soundKitID = SOUNDKIT.RAID_WARNING, uiSoundSubType = CDM_SOUND_SUBTYPE })
 end
 
 local Update
@@ -134,7 +153,9 @@ end
 
 local function InvalidateBindings()
     needsDiscovery = true
-    previousDance, previousBlades = nil, nil
+    if previousFromViewer then
+        previousDance, previousBlades = nil, nil
+    end
     QueueSample()
 end
 
@@ -146,6 +167,7 @@ local function DiscoverViewer(viewer)
     if not hookedViewers[viewer] and pcall(hooksecurefunc, viewer, "RefreshData", InvalidateBindings) then
         hookedViewers[viewer] = true
         pcall(viewer.HookScript, viewer, "OnHide", InvalidateBindings)
+        pcall(viewer.HookScript, viewer, "OnShow", InvalidateBindings)
     end
 
     if not ViewerIsTracking(viewer) then
@@ -166,13 +188,8 @@ local function DiscoverViewer(viewer)
     end
 end
 
-Update = function()
-    sampleQueued = false
-    if not tracking then
-        return
-    end
-
-    if needsDiscovery then
+local function ReadViewerAuras()
+    if needsDiscovery or not previousFromViewer then
         needsDiscovery = false
         bindings = {}
         for _, viewerName in ipairs(viewerNames) do
@@ -182,7 +199,28 @@ Update = function()
             end
         end
     end
-    Sample()
+    return ReadTrackedSpell(SHADOW_DANCE), ReadTrackedSpell(SHADOW_BLADES)
+end
+
+Update = function()
+    sampleQueued = false
+    if not tracking then
+        return
+    end
+
+    local dance, blades = ReadShadowDance(), ReadPlayerAura(SHADOW_BLADES)
+    local fromViewer = dance == nil or blades == nil
+    if fromViewer then
+        dance, blades = ReadViewerAuras()
+    end
+
+    -- A source change or a simultaneous Blades transition cannot confirm a reminder.
+    local shouldAlert = previousFromViewer == fromViewer and previousDance == true and dance == false
+        and previousBlades == true and blades == true
+    previousDance, previousBlades, previousFromViewer = dance, blades, fromViewer
+    if shouldAlert then
+        PlayDanceAlert()
+    end
 end
 
 local events = CreateFrame("Frame")
@@ -192,18 +230,25 @@ events:RegisterEvent("PLAYER_DEAD")
 events:RegisterEvent("PLAYER_ALIVE")
 events:RegisterEvent("PLAYER_UNGHOST")
 events:RegisterEvent("PLAYER_REGEN_ENABLED")
+events:RegisterEvent("ADDON_RESTRICTION_STATE_CHANGED")
 events:RegisterEvent("COOLDOWN_VIEWER_DATA_LOADED")
 
 events:SetScript("OnEvent", function(_, event, unit)
-    if event == "UNIT_AURA" then
+    if event == "UNIT_AURA" or event == "ADDON_RESTRICTION_STATE_CHANGED" then
         QueueSample()
         return
     end
 
+    if event == "COOLDOWN_VIEWER_DATA_LOADED" then
+        InvalidateBindings()
+        return
+    end
+
     if event == "PLAYER_REGEN_ENABLED" then
-        if tracking and (not bindings[SHADOW_DANCE] or not bindings[SHADOW_BLADES]) then
-            InvalidateBindings()
+        if not bindings[SHADOW_DANCE] or not bindings[SHADOW_BLADES] then
+            needsDiscovery = true
         end
+        QueueSample()
         return
     end
 
@@ -221,5 +266,6 @@ events:SetScript("OnEvent", function(_, event, unit)
         bindings = {}
     end
     tracking = shouldTrack
+    previousDance, previousBlades, previousFromViewer = nil, nil, nil
     InvalidateBindings()
 end)
