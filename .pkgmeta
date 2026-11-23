@@ -1,0 +1,6 @@
+package-as: MandingasRotationalReminders
+
+ignore:
+  - .git
+  - .github
+  - README.md
