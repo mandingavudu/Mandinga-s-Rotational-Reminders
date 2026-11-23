@@ -2,7 +2,7 @@
 
 ## English
 
-A collection of class- and specialization-specific rotation reminders for World of Warcraft: Midnight 12.1.5.
+A collection of class- and specialization-specific rotation reminders for World of Warcraft Retail.
 
 ### Available reminders
 
@@ -16,7 +16,7 @@ When Shadow Dance ends while Shadow Blades is still active, the addon says the l
 
 ## Português
 
-Uma coleção de lembretes de rotação por classe e especialização para World of Warcraft: Midnight 12.1.5.
+Uma coleção de lembretes de rotação por classe e especialização para World of Warcraft Retail.
 
 ### Lembretes disponíveis
 
