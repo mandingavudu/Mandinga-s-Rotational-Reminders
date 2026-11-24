@@ -137,8 +137,8 @@ local function RegisterOptions()
         spellID = addon.rollTheBonesSpellID,
         fallbackName = isPortuguese and "Rolar os Dados" or "Roll the Bones",
         tooltip = isPortuguese
-            and "Toca um aviso quando faltam 2 segundos para o efeito terminar ou quando a recarga acaba com um resultado no estágio 1 ou no estágio 2 com Dados Viciados ativo."
-            or "Alerts when the buff has 2 seconds remaining, or when Roll the Bones finishes recharging at stage 1 or at stage 2 with Loaded Dice active.",
+            and "Avisa quando a habilidade está pronta e faltam 2 segundos para o efeito terminar. Também avisa quando a recarga acaba sem efeito ativo, no estágio 1 ou no estágio 2 com Dados Viciados ativo."
+            or "Alerts when Roll the Bones is ready and the buff has 2 seconds remaining. It also alerts on recharge with no active roll, at stage 1, or at stage 2 with Loaded Dice active.",
         refreshTracking = addon.RefreshCooldownReminderTracking,
     })
     RegisterReminder(category, {
