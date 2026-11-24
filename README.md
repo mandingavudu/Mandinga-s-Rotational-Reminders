@@ -13,7 +13,7 @@ When Retail restricts direct aura lookups, add the following buffs to a visible 
 | Reminder | Buffs to track |
 | --- | --- |
 | Shadow Dance | Shadow Dance and Shadow Blades |
-| Roll the Bones | Roll the Bones, plus Loaded Dice for the stage 2 recharge alert |
+| Roll the Bones | Roll the Bones, plus Loaded Dice for the stage 2 alert on combat entry or recharge |
 | Keep It Rolling | Roll the Bones |
 
 Roll stage detection can use the tracked bar’s exact localized result name or an original icon unique to that stage. If you customize the bar, use the localized result name as the entire label to keep the text fallback working.
@@ -33,7 +33,7 @@ Plays an alert once before the Improved Garrote buff expires. Set the lead time 
 
 #### Outlaw Rogue
 
-- **Roll the Bones** alerts with 2 seconds left on the buff while the spell is ready. If Retail hides the timer, the addon estimates it from your Roll the Bones and Keep It Rolling casts. It also alerts on recharge with no active roll, at stage 1, or at stage 2 with Loaded Dice active. The default alert plays the spell’s cast sound at boosted volume.
+- **Roll the Bones** alerts with 2 seconds left on the buff while the spell is ready. If Retail hides the timer, the addon estimates it from your Roll the Bones and Keep It Rolling casts. On combat entry or recharge, it alerts if the spell is ready and you have no active roll, a stage 1 roll, or a stage 2 roll with Loaded Dice active. The default alert plays the spell’s cast sound at boosted volume.
 - **Keep It Rolling** alerts when it finishes recharging with a stage 3 or 4 roll, or when a new roll of stage 3 or 4 is applied while it is ready. The default alert uses the Jackpot sound from the Liberation of Undermine tier sets.
 - **Preparation** checks after you cast Adrenaline Rush, Killing Spree, or Blade Rush. It alerts if Preparation is ready and all three spells are on cooldown.
 
@@ -52,7 +52,7 @@ Quando o Retail restringir a consulta direta aos efeitos, adicione os bônus aba
 | Lembrete | Bônus a acompanhar |
 | --- | --- |
 | Dança das Sombras | Dança das Sombras e Lâminas Sombrias |
-| Golpe de Sorte | Golpe de Sorte, além de Dados Viciados para o aviso de recarga no estágio 2 |
+| Golpe de Sorte | Golpe de Sorte, além de Dados Viciados para o aviso no estágio 2 ao entrar em combate ou ao terminar a recarga |
 | Sorte Grande | Golpe de Sorte |
 
 Para identificar o estágio da rolagem, o addon pode usar o nome localizado exato do resultado na barra rastreada ou um ícone original exclusivo daquele estágio. Se personalizar a barra, use apenas o nome localizado do resultado no texto para manter essa forma de identificação.
@@ -72,7 +72,7 @@ Toca um aviso uma vez antes de terminar o efeito de Garrote Aprimorado. Ajuste a
 
 #### Ladino Fora da Lei
 
-- **Golpe de Sorte** avisa quando a habilidade está pronta e faltam 2 segundos para o efeito terminar. Se o Retail ocultar o temporizador, o addon estima o tempo a partir das ativações de Golpe de Sorte e Sorte Grande. Também avisa quando a recarga acaba sem efeito ativo, no estágio 1 ou no estágio 2 com o bônus de Dados Viciados ativo. O aviso padrão toca o som da habilidade com volume reforçado.
+- **Golpe de Sorte** avisa quando a habilidade está pronta e faltam 2 segundos para o efeito terminar. Se o Retail ocultar o temporizador, o addon estima o tempo a partir das ativações de Golpe de Sorte e Sorte Grande. Ao entrar em combate ou ao terminar a recarga, avisa se a habilidade estiver pronta e você estiver sem efeito ativo, no estágio 1 ou no estágio 2 com o bônus de Dados Viciados ativo. O aviso padrão toca o som da habilidade com volume reforçado.
 - **Sorte Grande** avisa quando a recarga acaba com um resultado de Golpe de Sorte no estágio 3 ou 4, ou quando você obtém um resultado nesses estágios com Sorte Grande pronta. O aviso padrão usa o som de jackpot dos conjuntos de classe da Libertação da Inframina.
 - **Preparação** verifica as recargas após você usar Adrenalina, Matança ou Ímpeto da Lâmina. Avisa se Preparação estiver pronta e as três habilidades estiverem em recarga.
 

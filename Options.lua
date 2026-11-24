@@ -164,8 +164,8 @@ local function RegisterOptions()
         defaultSoundLabel = isPortuguese and "Som de Golpe de Sorte" or "Roll the Bones cast sound",
         defaultSoundMigrationKey = "rollTheBonesCastSoundMigrated",
         tooltip = isPortuguese
-            and "Avisa quando a habilidade está pronta e faltam 2 segundos para o efeito terminar. Também avisa quando a recarga acaba sem efeito ativo, no estágio 1 ou no estágio 2 com o bônus de Dados Viciados ativo."
-            or "Alerts when Roll the Bones is ready and the buff has 2 seconds remaining. It also alerts on recharge with no active roll, at stage 1, or at stage 2 with Loaded Dice active.",
+            and "Avisa quando a habilidade está pronta e faltam 2 segundos para o efeito terminar. Ao entrar em combate ou ao terminar a recarga, avisa se a habilidade estiver pronta e você estiver sem efeito ativo, no estágio 1 ou no estágio 2 com o bônus de Dados Viciados ativo."
+            or "Alerts when Roll the Bones is ready and the buff has 2 seconds remaining. On combat entry or recharge, it alerts if the spell is ready and you have no active roll, a stage 1 roll, or a stage 2 roll with Loaded Dice active.",
         refreshTracking = addon.RefreshCooldownReminderTracking,
     })
     RegisterReminder(category, {
