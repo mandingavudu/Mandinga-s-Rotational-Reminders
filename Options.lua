@@ -122,28 +122,10 @@ local function RegisterImprovedGarroteTiming(category, enabledControl, enabledSe
     end)
 end
 
-local function RegisterOptions()
-    if type(MandingasRotationalRemindersDB) ~= "table" then
-        MandingasRotationalRemindersDB = {}
-    end
-    addon.settings = MandingasRotationalRemindersDB
-
-    local category, layout = Settings.RegisterVerticalLayoutCategory("Mandinga's Rotational Reminders")
-    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(isPortuguese and "Geral" or "General"))
-    local settings = addon.settings
-    if type(settings.duplicateSoundEffects) ~= "boolean" then
-        settings.duplicateSoundEffects = true
-    end
-    local duplicateLabel = isPortuguese and "Duplicar sons sem TTS" or "Duplicate non-TTS sounds"
-    local duplicateTooltip = isPortuguese
-        and "Toca duas cópias simultâneas do efeito sonoro de cada aviso para aumentar o volume. O texto em fala toca uma vez por aviso."
-        or "Plays two simultaneous copies of each alert sound effect for extra volume. Text-to-speech plays once per alert."
-    local duplicateSetting = Settings.RegisterAddOnSetting(category, addonName .. "_DUPLICATE_SOUND_EFFECTS",
-        "duplicateSoundEffects", settings, Settings.VarType.Boolean, duplicateLabel, true)
-    Settings.CreateCheckbox(category, duplicateSetting, duplicateTooltip)
-
-    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(
-        isPortuguese and "Ladino de Subterfúgio" or "Subtlety Rogue"))
+local function RegisterRogueOptions(parentCategory)
+    local category, layout = Settings.RegisterVerticalLayoutSubcategory(parentCategory, LOCALIZED_CLASS_NAMES_MALE.ROGUE)
+    local _, subtletyName = GetSpecializationInfoForSpecID(261)
+    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(subtletyName))
     RegisterReminder(category, {
         key = "shadowDance",
         variable = "SHADOW_DANCE",
@@ -154,8 +136,8 @@ local function RegisterOptions()
             or "Plays an alert when Shadow Dance ends while Shadow Blades is still active.",
         refreshTracking = addon.RefreshShadowDanceTracking,
     })
-    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(
-        isPortuguese and "Ladino de Assassinato" or "Assassination Rogue"))
+    local _, assassinationName = GetSpecializationInfoForSpecID(259)
+    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(assassinationName))
     local garroteEnabledControl, garroteEnabledSetting = RegisterReminder(category, {
         key = "improvedGarrote",
         variable = "IMPROVED_GARROTE",
@@ -171,8 +153,8 @@ local function RegisterOptions()
     })
     RegisterImprovedGarroteTiming(category, garroteEnabledControl, garroteEnabledSetting)
 
-    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(
-        isPortuguese and "Ladino Fora da Lei" or "Outlaw Rogue"))
+    local _, outlawName = GetSpecializationInfoForSpecID(260)
+    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(outlawName))
     RegisterReminder(category, {
         key = "rollTheBones",
         variable = "ROLL_THE_BONES",
@@ -214,6 +196,31 @@ local function RegisterOptions()
     })
 
     Settings.RegisterAddOnCategory(category)
+end
+
+local function RegisterOptions()
+    if type(MandingasRotationalRemindersDB) ~= "table" then
+        MandingasRotationalRemindersDB = {}
+    end
+    addon.settings = MandingasRotationalRemindersDB
+
+    local category, layout = Settings.RegisterVerticalLayoutCategory("Mandinga's Rotational Reminders")
+    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(AUDIO_LABEL))
+    local settings = addon.settings
+    if type(settings.duplicateSoundEffects) ~= "boolean" then
+        settings.duplicateSoundEffects = true
+    end
+    local duplicateLabel = isPortuguese and "Duplicar sons sem TTS" or "Duplicate non-TTS sounds"
+    local duplicateTooltip = isPortuguese
+        and "Toca duas cópias simultâneas do efeito sonoro de cada aviso para aumentar o volume. O texto em fala toca uma vez por aviso."
+        or "Plays two simultaneous copies of each alert sound effect for extra volume. Text-to-speech plays once per alert."
+    local duplicateSetting = Settings.RegisterAddOnSetting(category, addonName .. "_DUPLICATE_SOUND_EFFECTS",
+        "duplicateSoundEffects", settings, Settings.VarType.Boolean, duplicateLabel, true)
+    Settings.CreateCheckbox(category, duplicateSetting, duplicateTooltip)
+
+    Settings.RegisterAddOnCategory(category)
+    RegisterRogueOptions(category)
+
     SLASH_MANDINGASROTATIONALREMINDERS1 = "/mrr"
     SlashCmdList.MANDINGASROTATIONALREMINDERS = function()
         Settings.OpenToCategory(category:GetID())

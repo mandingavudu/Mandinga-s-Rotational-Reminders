@@ -4,9 +4,9 @@
 
 A collection of class- and specialization-specific rotation reminders for World of Warcraft Retail.
 
-Open **Options → AddOns → Mandinga's Rotational Reminders** or type `/mrr` to toggle reminders and choose their sounds. By default, every reminder uses text-to-speech (TTS) to announce its localized spell name. The sound picker includes the Cooldown Manager catalog when available. Sound effects play through **Gameplay SFX**.
+Open **Options → AddOns → Mandinga's Rotational Reminders** or type `/mrr` to open the main settings page. Open the **Rogue** subpage to toggle reminders and choose their sounds. By default, every reminder uses text-to-speech (TTS) to announce its localized spell name. The sound picker includes the Cooldown Manager catalog when available. Sound effects play through **Gameplay SFX**.
 
-Under **General**, **Duplicate non-TTS sounds** plays two simultaneous copies of each alert sound effect for extra volume. It is enabled by default. Text-to-speech plays once per alert.
+Under **Audio**, **Duplicate non-TTS sounds** plays two simultaneous copies of each alert sound effect for extra volume. It is enabled by default. Text-to-speech plays once per alert.
 
 ### Cooldown Manager setup
 
@@ -31,7 +31,7 @@ When `Shadow Dance` ends while `Shadow Blades` is still active, the addon plays 
 
 #### Assassination Rogue
 
-Plays an alert once before the `Improved Garrote` buff expires. Set the lead time from 0.5 to 5 seconds in `/mrr`. The slider shows seconds, with a default of `1.5 s`. If the game hides the aura timer, the reminder estimates the remaining time from the six-second window after leaving `Stealth`. The text-to-speech choices use the localized spell names `Improved Garrote` (default) and `Garrote`.
+Plays an alert once before the `Improved Garrote` buff expires. Set the lead time from 0.5 to 5 seconds on the **Rogue** subpage. The slider shows seconds, with a default of `1.5 s`. If the game hides the aura timer, the reminder estimates the remaining time from the six-second window after leaving `Stealth`. The text-to-speech choices use the localized spell names `Improved Garrote` (default) and `Garrote`.
 
 #### Outlaw Rogue
 
@@ -49,9 +49,9 @@ If several TTS reminders from this addon, other addons, or the Cooldown Manager 
 
 Uma coleção de lembretes de rotação por classe e especialização para World of Warcraft Retail.
 
-Abra **Opções → AddOns → Mandinga's Rotational Reminders** ou digite `/mrr` para ativar ou desativar os lembretes e escolher seus sons. Por padrão, todos os lembretes anunciam o nome localizado da habilidade por texto em fala (TTS). O seletor inclui o catálogo do Gerenciador de Recarga quando disponível. Os efeitos sonoros usam a categoria **Gameplay SFX**.
+Abra **Opções → AddOns → Mandinga's Rotational Reminders** ou digite `/mrr` para abrir a página principal de configurações. Na subpágina **Ladino**, você pode ativar ou desativar os lembretes e escolher seus sons. Por padrão, todos os lembretes anunciam o nome localizado da habilidade por texto em fala (TTS). O seletor inclui o catálogo do Gerenciador de Recarga quando disponível. Os efeitos sonoros usam a categoria **Gameplay SFX**.
 
-Em **Geral**, a opção **Duplicar sons sem TTS** toca duas cópias simultâneas do efeito sonoro de cada aviso para aumentar o volume. A opção vem ativada por padrão. O texto em fala toca uma vez por aviso.
+Em **Áudio**, a opção **Duplicar sons sem TTS** toca duas cópias simultâneas do efeito sonoro de cada aviso para aumentar o volume. A opção vem ativada por padrão. O texto em fala toca uma vez por aviso.
 
 ### Configuração do Gerenciador de Recarga
 
@@ -76,7 +76,7 @@ Quando `Dança das Sombras` termina e o efeito de `Lâminas Sombrias` permanece 
 
 #### Ladino de Assassinato
 
-Toca um aviso uma vez antes de terminar o efeito de `Garrote Aprimorado`. Ajuste a antecedência de 0,5 a 5 segundos em `/mrr`. O controle exibe o tempo em segundos, com valor padrão de `1,5 s`. Se o jogo ocultar o temporizador do efeito, o lembrete estima o tempo restante usando a janela de seis segundos após sair de `Furtividade`. As opções de texto em fala usam os nomes localizados de `Garrote Aprimorado` (padrão) e `Garrote`.
+Toca um aviso uma vez antes de terminar o efeito de `Garrote Aprimorado`. Ajuste a antecedência de 0,5 a 5 segundos na subpágina **Ladino**. O controle exibe o tempo em segundos, com valor padrão de `1,5 s`. Se o jogo ocultar o temporizador do efeito, o lembrete estima o tempo restante usando a janela de seis segundos após sair de `Furtividade`. As opções de texto em fala usam os nomes localizados de `Garrote Aprimorado` (padrão) e `Garrote`.
 
 #### Ladino Fora da Lei
 
