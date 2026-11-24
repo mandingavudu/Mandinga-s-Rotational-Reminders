@@ -4,7 +4,7 @@
 
 A collection of class- and specialization-specific rotation reminders for World of Warcraft Retail.
 
-Open **Options → AddOns → Mandinga's Rotational Reminders** or type `/mrr` to toggle reminders and choose their sounds. The sound picker uses the Cooldown Manager catalog when available and offers text-to-speech otherwise. Sound effects play through **Gameplay SFX**.
+Open **Options → AddOns → Mandinga's Rotational Reminders** or type `/mrr` to toggle reminders and choose their sounds. The sound picker offers text-to-speech and the Cooldown Manager catalog when available. Sound effects play through **Gameplay SFX**.
 
 ### Cooldown Manager setup
 
@@ -33,17 +33,17 @@ Plays an alert once before the Improved Garrote buff expires. Set the lead time 
 
 #### Outlaw Rogue
 
-- **Roll the Bones** alerts with 2 seconds left on the buff while the spell is ready. If Retail hides the timer, the addon estimates it from your Roll the Bones and Keep It Rolling casts. It also alerts on recharge with no active roll, at stage 1, or at stage 2 with Loaded Dice active.
+- **Roll the Bones** alerts with 2 seconds left on the buff while the spell is ready. If Retail hides the timer, the addon estimates it from your Roll the Bones and Keep It Rolling casts. It also alerts on recharge with no active roll, at stage 1, or at stage 2 with Loaded Dice active. The default alert plays the spell’s cast sound at boosted volume.
 - **Keep It Rolling** alerts when it finishes recharging with a stage 3 or 4 roll, or when a new roll of stage 3 or 4 is applied while it is ready.
 - **Preparation** checks after you cast Adrenaline Rush, Killing Spree, or Blade Rush. It alerts if Preparation is ready and all three spells are on cooldown.
 
-Each reminder has its own toggle and sound. By default, text-to-speech announces the localized spell name. A stage-based alert can play later in the same roll if Retail exposes the stage after the trigger.
+Keep It Rolling and Preparation use text-to-speech by default, announcing the localized spell name. A stage-based alert can play later in the same roll if Retail exposes the stage after the trigger.
 
 ## Português (Brasil)
 
 Uma coleção de lembretes de rotação por classe e especialização para World of Warcraft Retail.
 
-Abra **Opções → AddOns → Mandinga's Rotational Reminders** ou digite `/mrr` para ativar ou desativar os lembretes e escolher seus sons. O seletor usa o catálogo do Gerenciador de Recarga quando disponível e oferece texto em fala quando o catálogo está indisponível. Os efeitos sonoros usam a categoria **Gameplay SFX**.
+Abra **Opções → AddOns → Mandinga's Rotational Reminders** ou digite `/mrr` para ativar ou desativar os lembretes e escolher seus sons. O seletor oferece texto em fala e, quando disponível, o catálogo do Gerenciador de Recarga. Os efeitos sonoros usam a categoria **Gameplay SFX**.
 
 ### Configuração do Gerenciador de Recarga
 
@@ -72,8 +72,8 @@ Toca um aviso uma vez antes de terminar o efeito de Garrote Aprimorado. Ajuste a
 
 #### Ladino Fora da Lei
 
-- **Golpe de Sorte** avisa quando a habilidade está pronta e faltam 2 segundos para o efeito terminar. Se o Retail ocultar o temporizador, o addon estima o tempo a partir das ativações de Golpe de Sorte e Sorte Grande. Também avisa quando a recarga acaba sem efeito ativo, no estágio 1 ou no estágio 2 com o bônus de Dados Viciados ativo.
+- **Golpe de Sorte** avisa quando a habilidade está pronta e faltam 2 segundos para o efeito terminar. Se o Retail ocultar o temporizador, o addon estima o tempo a partir das ativações de Golpe de Sorte e Sorte Grande. Também avisa quando a recarga acaba sem efeito ativo, no estágio 1 ou no estágio 2 com o bônus de Dados Viciados ativo. O aviso padrão toca o som da habilidade com volume reforçado.
 - **Sorte Grande** avisa quando a recarga acaba com um resultado de Golpe de Sorte no estágio 3 ou 4, ou quando você obtém um resultado nesses estágios com Sorte Grande pronta.
 - **Preparação** verifica as recargas após você usar Adrenalina, Matança ou Ímpeto da Lâmina. Avisa se Preparação estiver pronta e as três habilidades estiverem em recarga.
 
-Cada lembrete pode ser ativado separadamente e tem seu próprio som. Por padrão, o texto em fala anuncia o nome localizado da habilidade. Se o Retail revelar o estágio com atraso, o aviso ainda pode tocar durante a mesma rolagem.
+Sorte Grande e Preparação anunciam por padrão o nome localizado da habilidade por texto em fala. Se o Retail revelar o estágio com atraso, o aviso ainda pode tocar durante a mesma rolagem.
