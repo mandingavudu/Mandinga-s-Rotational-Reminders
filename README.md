@@ -31,7 +31,7 @@ Plays an alert once before the Improved Garrote buff expires. Set the lead time 
 
 #### Outlaw Rogue
 
-- **Roll the Bones** alerts with 2 seconds left on the buff. If Retail hides the timer, the addon estimates it from your Roll the Bones and Keep It Rolling casts. It also alerts when the spell finishes recharging at stage 1, or at stage 2 with Loaded Dice active.
+- **Roll the Bones** alerts with 2 seconds left on the buff while the spell is ready. If Retail hides the timer, the addon estimates it from your Roll the Bones and Keep It Rolling casts. It also alerts on recharge with no active roll, at stage 1, or at stage 2 with Loaded Dice active.
 - **Keep It Rolling** alerts when it finishes recharging with a stage 3 or 4 roll, or when a new roll of stage 3 or 4 is applied while it is ready.
 - **Preparation** checks after you cast Adrenaline Rush, Killing Spree, or Blade Rush. It alerts if Preparation is ready and all three spells are on cooldown.
 
@@ -68,7 +68,7 @@ Toca um aviso uma vez antes de terminar o efeito de Garrote Aprimorado. Ajuste a
 
 #### Ladino Fora da Lei
 
-- **Rolar os Dados** avisa quando faltam 2 segundos para o efeito terminar. Se o Retail ocultar o temporizador, o addon estima o tempo com base nos seus usos de Rolar os Dados e Keep It Rolling. Também avisa quando a recarga acaba com um resultado no estágio 1 ou no estágio 2 com Dados Viciados ativo.
+- **Rolar os Dados** avisa quando a habilidade está pronta e faltam 2 segundos para o efeito terminar. Se o Retail ocultar o temporizador, o addon estima o tempo com base nos seus usos de Rolar os Dados e Keep It Rolling. Também avisa quando a recarga acaba sem efeito ativo, no estágio 1 ou no estágio 2 com Dados Viciados ativo.
 - **Keep It Rolling** avisa quando a recarga acaba com um resultado no estágio 3 ou 4, ou quando um novo resultado nesses estágios é aplicado com a habilidade pronta.
 - **Preparação** verifica após usar Adrenaline Rush, Killing Spree ou Blade Rush. Avisa se Preparação estiver pronta e as três habilidades estiverem em recarga.
 
