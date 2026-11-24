@@ -142,6 +142,16 @@ local function RegisterOptions()
         refreshTracking = addon.RefreshCooldownReminderTracking,
     })
     RegisterReminder(category, {
+        key = "keepItRolling",
+        variable = "KEEP_IT_ROLLING",
+        spellID = addon.keepItRollingSpellID,
+        fallbackName = "Keep It Rolling",
+        tooltip = isPortuguese
+            and "Toca um aviso quando a recarga acaba com um resultado no estágio 3 ou superior, ou quando um novo resultado nesse estágio é aplicado com a habilidade pronta."
+            or "Alerts when Keep It Rolling finishes recharging with a stage 3 or higher roll, or when a new roll of stage 3 or higher is applied while Keep It Rolling is ready.",
+        refreshTracking = addon.RefreshCooldownReminderTracking,
+    })
+    RegisterReminder(category, {
         key = "preparation",
         variable = "PREPARATION",
         spellID = addon.preparationSpellID,

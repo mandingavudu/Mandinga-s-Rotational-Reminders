@@ -10,5 +10,6 @@ CooldownReminders.lua
 Rogue\ShadowDance.lua
 Rogue\ImprovedGarrote.lua
 Rogue\RollTheBones.lua
+Rogue\KeepItRolling.lua
 Rogue\Preparation.lua
 Options.lua
