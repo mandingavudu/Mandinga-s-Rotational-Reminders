@@ -6,6 +6,8 @@
 ## SavedVariables: MandingasRotationalRemindersDB
 
 Audio.lua
+CooldownReminders.lua
 Rogue\ShadowDance.lua
 Rogue\ImprovedGarrote.lua
+Rogue\Preparation.lua
 Options.lua
