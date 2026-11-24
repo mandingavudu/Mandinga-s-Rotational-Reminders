@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1
+
+- Use Retail’s Brazilian Portuguese spell and menu names in the settings and README, and localize the addon-list description.
+- Clarify Cooldown Manager bar-label matching, sound selection and playback, and Improved Garrote’s text-to-speech preview and timer display.
+
 ## 1.1.0
 
 - Add an **Assassination Rogue** reminder before **Improved Garrote** expires, with a configurable lead time of 0.5–5 seconds (default 1.5). Text-to-speech uses the localized name of **Garrote**.
