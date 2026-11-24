@@ -9,5 +9,6 @@ Audio.lua
 CooldownReminders.lua
 Rogue\ShadowDance.lua
 Rogue\ImprovedGarrote.lua
+Rogue\RollTheBones.lua
 Rogue\Preparation.lua
 Options.lua

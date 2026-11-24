@@ -38,6 +38,12 @@ local function GetCooldownInfo(spellID)
 end
 
 local function IsReady(spellID)
+    local baseSpellID = spellID
+    local override = C_Spell.GetOverrideSpell and C_Spell.GetOverrideSpell(spellID)
+    if not issecretvalue(override) and override and override ~= spellID and activeGroup.spellIDs[override]
+        and C_SpellBook.IsSpellKnown(override) then
+        spellID = override
+    end
     if not C_SpellBook.IsSpellKnown(spellID) then
         return
     end
@@ -63,7 +69,11 @@ local function IsReady(spellID)
     if gcd and not issecretvalue(gcd.isActive) and gcd.isActive == false then
         return false
     end
-    return readyOnGlobalCooldown[spellID]
+    local ready = readyOnGlobalCooldown[spellID]
+    if ready == nil then
+        return readyOnGlobalCooldown[baseSpellID]
+    end
+    return ready
 end
 
 local function Update()
@@ -72,8 +82,15 @@ local function Update()
         return
     end
 
+    sample.roll = nil
+    wipe(sample.recharged)
     for spellID in pairs(activeGroup.spellIDs) do
-        sample.ready[spellID] = IsReady(spellID)
+        local ready = IsReady(spellID)
+        sample.ready[spellID] = ready
+        if ready ~= nil then
+            sample.recharged[spellID] = ready and sample.lastReady[spellID] == false
+            sample.lastReady[spellID] = ready
+        end
     end
 
     local settings = addon.settings
@@ -87,6 +104,9 @@ local function Update()
     end
     wipe(readyOnGlobalCooldown)
     wipe(sample.casts)
+    wipe(sample.updatedAuras)
+    wipe(sample.addedAuras)
+    wipe(sample.removedAuras)
 end
 
 local function QueueUpdate()
@@ -95,6 +115,7 @@ local function QueueUpdate()
         C_Timer.After(0, Update)
     end
 end
+addon.QueueCooldownReminderUpdate = QueueUpdate
 
 local events = CreateFrame("Frame")
 events:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -120,8 +141,12 @@ function addon.RefreshCooldownReminderTracking()
 
     activeGroup = group
     wipe(readyOnGlobalCooldown)
-    sample = group and { ready = {}, casts = {} }
+    sample = group and {
+        ready = {}, lastReady = {}, recharged = {}, casts = {},
+        addedAuras = {}, updatedAuras = {}, removedAuras = {},
+    }
     if group and not ticker then
+        events:RegisterUnitEvent("UNIT_AURA", "player")
         events:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "player")
         events:RegisterEvent("SPELL_UPDATE_COOLDOWN")
         -- Cooldown expiry does not always send SPELL_UPDATE_COOLDOWN.
@@ -129,13 +154,44 @@ function addon.RefreshCooldownReminderTracking()
     elseif not group and ticker then
         ticker:Cancel()
         ticker = nil
+        events:UnregisterEvent("UNIT_AURA")
         events:UnregisterEvent("UNIT_SPELLCAST_SUCCEEDED")
         events:UnregisterEvent("SPELL_UPDATE_COOLDOWN")
     end
     QueueUpdate()
 end
 
-events:SetScript("OnEvent", function(_, event, unit, _castGUID, spellID)
+local function RecordAuraIDs(ids, destination)
+    if not issecretvalue(ids) and type(ids) == "table" then
+        for _, id in ipairs(ids) do
+            if not issecretvalue(id) then
+                destination[id] = true
+            end
+        end
+    end
+end
+
+local function RecordAuraChanges(update)
+    if issecretvalue(update) or type(update) ~= "table" then
+        return
+    end
+    local added = update.addedAuras
+    if not issecretvalue(added) and type(added) == "table" then
+        for _, aura in ipairs(added) do
+            if not issecretvalue(aura) and type(aura) == "table" then
+                local id = aura.auraInstanceID
+                if not issecretvalue(id) and id then
+                    local spellID = aura.spellId
+                    sample.addedAuras[id] = not issecretvalue(spellID) and spellID or true
+                end
+            end
+        end
+    end
+    RecordAuraIDs(update.updatedAuraInstanceIDs, sample.updatedAuras)
+    RecordAuraIDs(update.removedAuraInstanceIDs, sample.removedAuras)
+end
+
+events:SetScript("OnEvent", function(_, event, unit, update, spellID)
     if event == "UNIT_SPELLCAST_SUCCEEDED" then
         if sample and not issecretvalue(spellID) and activeGroup.castSpellIDs[spellID] then
             sample.casts[spellID] = true
@@ -152,6 +208,9 @@ events:SetScript("OnEvent", function(_, event, unit, _castGUID, spellID)
                 readyOnGlobalCooldown[spellID] = nil
             end
         end
+        QueueUpdate()
+    elseif event == "UNIT_AURA" and sample then
+        RecordAuraChanges(update)
         QueueUpdate()
     elseif event ~= "PLAYER_SPECIALIZATION_CHANGED" or (not issecretvalue(unit) and unit == "player") then
         addon.RefreshCooldownReminderTracking()
