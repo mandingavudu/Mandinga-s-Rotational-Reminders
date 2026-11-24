@@ -10,11 +10,19 @@ local function RegisterReminder(category, reminder)
     local enabledKey = reminder.key .. "Enabled"
     local soundKey = reminder.key .. "Sound"
     local variable = addonName .. "_" .. reminder.variable
+    local defaultSound = reminder.defaultSound or TEXT_TO_SPEECH
+    local migrationKey = reminder.defaultSoundMigrationKey
+    if migrationKey and not settings[migrationKey] then
+        if settings[soundKey] == TEXT_TO_SPEECH then
+            settings[soundKey] = defaultSound
+        end
+        settings[migrationKey] = true
+    end
     if type(settings[enabledKey]) ~= "boolean" then
         settings[enabledKey] = true
     end
     if type(settings[soundKey]) ~= "number" then
-        settings[soundKey] = TEXT_TO_SPEECH
+        settings[soundKey] = defaultSound
     end
     local spellName = addon.GetReminderSpellName(reminder.spellID) or reminder.fallbackName
     local enabledLabel = (isPortuguese and "Ativar lembrete de %s" or "Enable %s reminder"):format(spellName)
@@ -25,7 +33,7 @@ local function RegisterReminder(category, reminder)
 
     local soundLabel = isPortuguese and "Som do aviso" or "Alert sound"
     local soundSetting = Settings.RegisterAddOnSetting(category, variable .. "_SOUND",
-        soundKey, settings, Settings.VarType.Number, soundLabel, TEXT_TO_SPEECH)
+        soundKey, settings, Settings.VarType.Number, soundLabel, defaultSound)
     local soundControl = Settings.CreateDropdown(category, soundSetting, function()
         return {}
     end)
@@ -36,7 +44,8 @@ local function RegisterReminder(category, reminder)
 
     local function IsSelected(sound)
         local selected = soundSetting:GetValue()
-        if selected ~= TEXT_TO_SPEECH and CooldownViewerUtil and CooldownViewerUtil.GetSoundTypeText(selected) then
+        if selected == defaultSound or selected == TEXT_TO_SPEECH
+            or (CooldownViewerUtil and CooldownViewerUtil.GetSoundTypeText(selected)) then
             return selected == sound
         end
         return sound == TEXT_TO_SPEECH
@@ -47,6 +56,21 @@ local function RegisterReminder(category, reminder)
     end
 
     soundControl.customOptionHandler = function(rootDescription)
+        if reminder.defaultSoundLabel then
+            local radio = rootDescription:CreateRadio(reminder.defaultSoundLabel, IsSelected, SetSelected, defaultSound)
+            if CooldownViewerAlert_SetupTypeButton then
+                radio:AddInitializer(function(button)
+                    local preview = MenuTemplates.AttachUtilityButton(button)
+                    preview.Texture:Hide()
+                    CooldownViewerAlert_SetupTypeButton(preview, Enum.CooldownViewerAlertType.Sound)
+                    MenuTemplates.SetUtilityButtonAnchor(preview, MenuVariants.GearButtonAnchor, button, 0, 0)
+                    MenuTemplates.SetUtilityButtonTooltipText(preview, COOLDOWN_VIEWER_SETTINGS_ALERT_MENU_PLAY_SAMPLE)
+                    MenuTemplates.SetUtilityButtonClickHandler(preview, function()
+                        addon.PlayReminderSound(defaultSound)
+                    end)
+                end)
+            end
+        end
         if not CooldownViewerUtil then
             rootDescription:CreateRadio(textToSpeechLabel, IsSelected, SetSelected, TEXT_TO_SPEECH)
             return
@@ -136,6 +160,9 @@ local function RegisterOptions()
         variable = "ROLL_THE_BONES",
         spellID = addon.rollTheBonesSpellID,
         fallbackName = isPortuguese and "Golpe de Sorte" or "Roll the Bones",
+        defaultSound = addon.ROLL_THE_BONES_CAST_SOUND,
+        defaultSoundLabel = isPortuguese and "Som de Golpe de Sorte" or "Roll the Bones cast sound",
+        defaultSoundMigrationKey = "rollTheBonesCastSoundMigrated",
         tooltip = isPortuguese
             and "Avisa quando a habilidade está pronta e faltam 2 segundos para o efeito terminar. Também avisa quando a recarga acaba sem efeito ativo, no estágio 1 ou no estágio 2 com o bônus de Dados Viciados ativo."
             or "Alerts when Roll the Bones is ready and the buff has 2 seconds remaining. It also alerts on recharge with no active roll, at stage 1, or at stage 2 with Loaded Dice active.",
