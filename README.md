@@ -31,7 +31,7 @@ When Shadow Dance ends while Shadow Blades is still active, the addon plays the 
 
 #### Assassination Rogue
 
-Plays an alert once before the Improved Garrote buff expires. Set the lead time from 0.5 to 5 seconds in `/mrr`. The slider shows seconds, with a default of `1.5 s`. If the game hides the aura timer, the reminder estimates the remaining time from the six-second window after leaving Stealth. The default text-to-speech alert and its sound preview use the localized name of Garrote.
+Plays an alert once before the Improved Garrote buff expires. Set the lead time from 0.5 to 5 seconds in `/mrr`. The slider shows seconds, with a default of `1.5 s`. If the game hides the aura timer, the reminder estimates the remaining time from the six-second window after leaving Stealth. The text-to-speech choices use the localized spell names **Improved Garrote** (default) and **Garrote**.
 
 #### Outlaw Rogue
 
@@ -72,7 +72,7 @@ Quando Dança das Sombras termina e o efeito de Lâminas Sombrias permanece ativ
 
 #### Ladino de Assassinato
 
-Toca um aviso uma vez antes de terminar o efeito de Garrote Aprimorado. Ajuste a antecedência de 0,5 a 5 segundos em `/mrr`. O controle exibe o tempo em segundos, com valor padrão de `1,5 s`. Se o jogo ocultar o temporizador do efeito, o lembrete estima o tempo restante usando a janela de seis segundos após sair de Furtividade. O aviso padrão em texto em fala e sua prévia usam o nome localizado de Garrote.
+Toca um aviso uma vez antes de terminar o efeito de Garrote Aprimorado. Ajuste a antecedência de 0,5 a 5 segundos em `/mrr`. O controle exibe o tempo em segundos, com valor padrão de `1,5 s`. Se o jogo ocultar o temporizador do efeito, o lembrete estima o tempo restante usando a janela de seis segundos após sair de Furtividade. As opções de texto em fala usam os nomes localizados de **Garrote Aprimorado** (padrão) e **Garrote**.
 
 #### Ladino Fora da Lei
 

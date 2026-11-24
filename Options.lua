@@ -94,7 +94,7 @@ local function RegisterReminder(category, reminder)
         CooldownViewerUtil.AddSoundAlertRadio({
             text = fullTTSLabel,
             soundEnum = TEXT_TO_SPEECH,
-            spellName = addon.GetReminderSpellName(reminder.spokenSpellID or reminder.spellID),
+            spellName = spellName,
         }, CreateRadio, IsSelected, SetSelected, useHighlightStyle)
         CooldownViewerUtil.BuildSoundMenus(rootDescription, IsSelected, SetSelected, useHighlightStyle)
     end
@@ -166,13 +166,13 @@ local function RegisterOptions()
         key = "improvedGarrote",
         variable = "IMPROVED_GARROTE",
         spellID = addon.improvedGarroteSpellID,
-        spokenSpellID = addon.garroteSpellID,
+        alternateTTSSound = addon.GARROTE_TTS,
         fallbackName = isPortuguese and "Garrote Aprimorado" or "Improved Garrote",
         tooltip = isPortuguese
             and "Toca um aviso antes de terminar o efeito de Garrote Aprimorado."
-                .. " O texto em fala (TTS) usa o nome localizado da habilidade Garrote."
+                .. " As opções de texto em fala (TTS) usam os nomes localizados de Garrote Aprimorado (padrão) e Garrote."
             or "Plays an alert before your Improved Garrote buff expires."
-                .. " Text-to-speech (TTS) uses the localized name of the Garrote spell.",
+                .. " The text-to-speech (TTS) options use the localized names of Improved Garrote (default) and Garrote.",
         refreshTracking = addon.RefreshImprovedGarroteTracking,
     })
     RegisterImprovedGarroteTiming(category, garroteEnabledControl, garroteEnabledSetting)

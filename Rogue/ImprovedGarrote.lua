@@ -100,7 +100,7 @@ local function UpdateWarning()
     if delay <= 0 then
         CancelTimer()
         warned = true
-        addon.PlayReminderSound(addon.settings.improvedGarroteSound, GARROTE,
+        addon.PlayReminderSound(addon.settings.improvedGarroteSound, IMPROVED_GARROTE,
             Enum.CooldownViewerAlertEventType.Available)
     elseif expiration ~= scheduledExpiration then
         CancelTimer()
