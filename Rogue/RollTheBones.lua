@@ -378,15 +378,15 @@ function addon.GetRollTheBonesChanges(sample)
         sample.usesRollCastCooldown = true
     end
     local cooldownID = sample.usesRollCastCooldown and ROLL_THE_BONES_AURA or ROLL_THE_BONES
-    local recharged = sample.recharged[cooldownID]
+    local ready = sample.ready[cooldownID]
+    if cooldownID == ROLL_THE_BONES and sample.lastReady[ROLL_THE_BONES] == nil then
+        ready = sample.ready[ROLL_THE_BONES_AURA]
+    end
+    local checkReroll = sample.recharged[cooldownID] or (sample.enteredCombat and ready == true)
     local cast = sample.casts[ROLL_THE_BONES] or sample.casts[ROLL_THE_BONES_AURA]
     local roll = ReadRollTheBonesState(sample, addon.settings.rollTheBonesEnabled
-        and (recharged or (sample.diceSnapshotUntil and sample.diceSnapshotUntil >= GetTime())))
-    roll.recharged, roll.cast = recharged, cast
-    roll.ready = sample.ready[cooldownID]
-    if cooldownID == ROLL_THE_BONES and sample.lastReady[ROLL_THE_BONES] == nil then
-        roll.ready = sample.ready[ROLL_THE_BONES_AURA]
-    end
+        and (checkReroll or (sample.diceSnapshotUntil and sample.diceSnapshotUntil >= GetTime())))
+    roll.checkReroll, roll.cast, roll.ready = checkReroll, cast, ready
     local previous = sample.lastRoll
     local sameRoll = previous and roll.rollID and roll.rollID == previous.rollID
     local sameInstance = previous and roll.instanceID and roll.instanceID == previous.instanceID
@@ -498,9 +498,9 @@ local function GetRerollAlert(sample, roll, now)
     if roll.cast or roll.applied or roll.ready == false or roll.faded then
         sample.rerollPending, sample.diceSnapshotUntil = nil, nil
     end
-    if roll.recharged and not roll.cast then
+    if roll.checkReroll and not roll.cast then
         sample.rerollPending = true
-        sample.diceAtRecharge = roll.loadedDice
+        sample.diceAtTrigger = roll.loadedDice
         sample.diceSnapshotUntil = roll.active ~= false and roll.loadedDice == nil and now + AURA_UPDATE_WAIT or nil
     end
     if not sample.rerollPending then
@@ -510,7 +510,7 @@ local function GetRerollAlert(sample, roll, now)
         if sample.diceSnapshotUntil < now then
             sample.diceSnapshotUntil = nil
         elseif roll.loadedDice ~= nil then
-            sample.diceAtRecharge, sample.diceSnapshotUntil = roll.loadedDice, nil
+            sample.diceAtTrigger, sample.diceSnapshotUntil = roll.loadedDice, nil
         end
     end
     if roll.ready ~= true then
@@ -523,7 +523,7 @@ local function GetRerollAlert(sample, roll, now)
     if roll.active ~= true or not roll.stage then
         return
     end
-    if roll.stage == 1 or (roll.stage == 2 and sample.diceAtRecharge == true) then
+    if roll.stage == 1 or (roll.stage == 2 and sample.diceAtTrigger == true) then
         sample.rerollPending, sample.diceSnapshotUntil = nil, nil
         return ALERT_EVENT.Available
     end

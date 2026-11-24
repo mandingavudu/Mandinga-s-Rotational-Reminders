@@ -103,6 +103,7 @@ local function Update()
         end
     end
     wipe(readyOnGlobalCooldown)
+    sample.enteredCombat = nil
     wipe(sample.casts)
     wipe(sample.updatedAuras)
     wipe(sample.addedAuras)
@@ -149,6 +150,7 @@ function addon.RefreshCooldownReminderTracking()
         events:RegisterUnitEvent("UNIT_AURA", "player")
         events:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "player")
         events:RegisterEvent("SPELL_UPDATE_COOLDOWN")
+        events:RegisterEvent("PLAYER_REGEN_DISABLED")
         -- Cooldown expiry does not always send SPELL_UPDATE_COOLDOWN.
         ticker = C_Timer.NewTicker(0.2, QueueUpdate)
     elseif not group and ticker then
@@ -157,6 +159,7 @@ function addon.RefreshCooldownReminderTracking()
         events:UnregisterEvent("UNIT_AURA")
         events:UnregisterEvent("UNIT_SPELLCAST_SUCCEEDED")
         events:UnregisterEvent("SPELL_UPDATE_COOLDOWN")
+        events:UnregisterEvent("PLAYER_REGEN_DISABLED")
     end
     QueueUpdate()
 end
@@ -211,6 +214,9 @@ events:SetScript("OnEvent", function(_, event, unit, update, spellID)
         QueueUpdate()
     elseif event == "UNIT_AURA" and sample then
         RecordAuraChanges(update)
+        QueueUpdate()
+    elseif event == "PLAYER_REGEN_DISABLED" and sample then
+        sample.enteredCombat = true
         QueueUpdate()
     elseif event ~= "PLAYER_SPECIALIZATION_CHANGED" or (not issecretvalue(unit) and unit == "player") then
         addon.RefreshCooldownReminderTracking()
