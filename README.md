@@ -4,7 +4,7 @@
 
 A collection of class- and specialization-specific rotation reminders for World of Warcraft Retail.
 
-Open **Options → AddOns → Mandinga's Rotational Reminders** or type `/mrr` to toggle reminders and pick their sounds from the Cooldown Manager sound list.
+Open **Options → AddOns → Mandinga's Rotational Reminders** or type `/mrr` to toggle reminders and choose their sounds. The sound picker uses the Cooldown Manager catalog when available and offers text-to-speech otherwise. Sound effects play through **Gameplay SFX**.
 
 ### Cooldown Manager setup
 
@@ -15,6 +15,8 @@ When Retail restricts direct aura lookups, add the following buffs to a visible 
 | Shadow Dance | Shadow Dance and Shadow Blades |
 | Roll the Bones | Roll the Bones, plus Loaded Dice for the stage 2 recharge alert |
 | Keep It Rolling | Roll the Bones |
+
+Roll stage detection can use the tracked bar’s exact localized result name or an original icon unique to that stage. If you customize the bar, use the localized result name as the entire label to keep the text fallback working.
 
 ### Available reminders
 
@@ -27,7 +29,7 @@ When Shadow Dance ends while Shadow Blades is still active, the addon plays the 
 
 #### Assassination Rogue
 
-Plays an alert once before the Improved Garrote buff expires. Set the lead time from 0.5 to 5 seconds in `/mrr`. The default is 1.5 seconds. If the game hides the aura timer, the reminder estimates the remaining time from the six-second window after leaving Stealth. By default, WoW’s text-to-speech announces the localized name of Garrote.
+Plays an alert once before the Improved Garrote buff expires. Set the lead time from 0.5 to 5 seconds in `/mrr`. The slider shows seconds, with a default of `1.5 s`. If the game hides the aura timer, the reminder estimates the remaining time from the six-second window after leaving Stealth. The default text-to-speech alert and its sound preview use the localized name of Garrote.
 
 #### Outlaw Rogue
 
@@ -41,7 +43,7 @@ Each reminder has its own toggle and sound. By default, text-to-speech announces
 
 Uma coleção de lembretes de rotação por classe e especialização para World of Warcraft Retail.
 
-Abra **Opções → AddOns → Mandinga's Rotational Reminders** ou digite `/mrr` para ativar ou desativar os lembretes e escolher seus sons na lista do Gerenciador de Recarga.
+Abra **Opções → AddOns → Mandinga's Rotational Reminders** ou digite `/mrr` para ativar ou desativar os lembretes e escolher seus sons. O seletor usa o catálogo do Gerenciador de Recarga quando disponível e oferece texto em fala quando o catálogo está indisponível. Os efeitos sonoros usam a categoria **Gameplay SFX**.
 
 ### Configuração do Gerenciador de Recarga
 
@@ -52,6 +54,8 @@ Quando o Retail restringir a consulta direta aos efeitos, adicione os bônus aba
 | Dança das Sombras | Dança das Sombras e Lâminas Sombrias |
 | Golpe de Sorte | Golpe de Sorte, além de Dados Viciados para o aviso de recarga no estágio 2 |
 | Sorte Grande | Golpe de Sorte |
+
+Para identificar o estágio da rolagem, o addon pode usar o nome localizado exato do resultado na barra rastreada ou um ícone original exclusivo daquele estágio. Se personalizar a barra, use apenas o nome localizado do resultado no texto para manter essa forma de identificação.
 
 ### Lembretes disponíveis
 
@@ -64,7 +68,7 @@ Quando Dança das Sombras termina e o efeito de Lâminas Sombrias permanece ativ
 
 #### Ladino de Assassinato
 
-Toca um aviso uma vez antes de terminar o efeito de Garrote Aprimorado. Ajuste a antecedência de 0,5 a 5 segundos em `/mrr`. O padrão é 1,5 segundo. Se o jogo ocultar o temporizador do efeito, o lembrete estima o tempo restante usando a janela de seis segundos após sair de Furtividade. Por padrão, o texto em fala do WoW anuncia o nome localizado de Garrote.
+Toca um aviso uma vez antes de terminar o efeito de Garrote Aprimorado. Ajuste a antecedência de 0,5 a 5 segundos em `/mrr`. O controle exibe o tempo em segundos, com valor padrão de `1,5 s`. Se o jogo ocultar o temporizador do efeito, o lembrete estima o tempo restante usando a janela de seis segundos após sair de Furtividade. O aviso padrão em texto em fala e sua prévia usam o nome localizado de Garrote.
 
 #### Ladino Fora da Lei
 
