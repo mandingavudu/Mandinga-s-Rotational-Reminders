@@ -37,7 +37,7 @@ Plays an alert once before the Improved Garrote buff expires. Set the lead time 
 
 Each reminder has its own toggle and sound. By default, text-to-speech announces the localized spell name. A stage-based alert can play later in the same roll if Retail exposes the stage after the trigger.
 
-## Português
+## Português (Brasil)
 
 Uma coleção de lembretes de rotação por classe e especialização para World of Warcraft Retail.
 
@@ -45,31 +45,31 @@ Abra **Opções → AddOns → Mandinga's Rotational Reminders** ou digite `/mrr
 
 ### Configuração do Gerenciador de Recarga
 
-Quando o Retail restringir a consulta direta aos efeitos, adicione os bônus abaixo a uma seção visível de ícones ou barras de bônus no Gerenciador de Recarga.
+Quando o Retail restringir a consulta direta aos efeitos, adicione os bônus abaixo a uma seção visível de **Bônus Rastreados** ou **Barras Rastreadas** no Gerenciador de Recarga.
 
 | Lembrete | Bônus a acompanhar |
 | --- | --- |
 | Dança das Sombras | Dança das Sombras e Lâminas Sombrias |
-| Rolar os Dados | Rolar os Dados, além de Dados Viciados para o aviso de recarga no estágio 2 |
-| Keep It Rolling | Rolar os Dados |
+| Golpe de Sorte | Golpe de Sorte, além de Dados Viciados para o aviso de recarga no estágio 2 |
+| Sorte Grande | Golpe de Sorte |
 
 ### Lembretes disponíveis
 
 #### Ladino de Subterfúgio
 
-Quando Dança das Sombras termina e o efeito de Lâminas Sombrias permanece ativo, o addon toca o aviso escolhido uma vez. Por padrão, a síntese de voz do WoW anuncia o nome localizado da habilidade.
+Quando Dança das Sombras termina e o efeito de Lâminas Sombrias permanece ativo, o addon toca o aviso escolhido uma vez. Por padrão, o texto em fala (TTS) do WoW anuncia o nome localizado da habilidade.
 
 - Consulta os dois efeitos diretamente no personagem quando o jogo disponibiliza esses dados aos addons. Isso funciona com o Gerenciador de Recarga desativado.
 - Quando o jogo restringe a consulta direta, o lembrete usa as entradas do Gerenciador de Recarga listadas acima. O aviso fica em silêncio se o estado de algum dos efeitos continuar indisponível.
 
 #### Ladino de Assassinato
 
-Toca um aviso uma vez antes de terminar o efeito de Garrote Aprimorado. Ajuste a antecedência de 0,5 a 5 segundos em `/mrr`. O padrão é 1,5 segundo. Se o jogo ocultar o temporizador do efeito, o lembrete estima o tempo restante usando a janela de seis segundos após sair de Furtividade. Por padrão, a síntese de voz do WoW anuncia o nome localizado de Garrote.
+Toca um aviso uma vez antes de terminar o efeito de Garrote Aprimorado. Ajuste a antecedência de 0,5 a 5 segundos em `/mrr`. O padrão é 1,5 segundo. Se o jogo ocultar o temporizador do efeito, o lembrete estima o tempo restante usando a janela de seis segundos após sair de Furtividade. Por padrão, o texto em fala do WoW anuncia o nome localizado de Garrote.
 
 #### Ladino Fora da Lei
 
-- **Rolar os Dados** avisa quando a habilidade está pronta e faltam 2 segundos para o efeito terminar. Se o Retail ocultar o temporizador, o addon estima o tempo com base nos seus usos de Rolar os Dados e Keep It Rolling. Também avisa quando a recarga acaba sem efeito ativo, no estágio 1 ou no estágio 2 com Dados Viciados ativo.
-- **Keep It Rolling** avisa quando a recarga acaba com um resultado no estágio 3 ou 4, ou quando um novo resultado nesses estágios é aplicado com a habilidade pronta.
-- **Preparação** verifica após usar Adrenaline Rush, Killing Spree ou Blade Rush. Avisa se Preparação estiver pronta e as três habilidades estiverem em recarga.
+- **Golpe de Sorte** avisa quando a habilidade está pronta e faltam 2 segundos para o efeito terminar. Se o Retail ocultar o temporizador, o addon estima o tempo a partir das ativações de Golpe de Sorte e Sorte Grande. Também avisa quando a recarga acaba sem efeito ativo, no estágio 1 ou no estágio 2 com o bônus de Dados Viciados ativo.
+- **Sorte Grande** avisa quando a recarga acaba com um resultado de Golpe de Sorte no estágio 3 ou 4, ou quando você obtém um resultado nesses estágios com Sorte Grande pronta.
+- **Preparação** verifica as recargas após você usar Adrenalina, Matança ou Ímpeto da Lâmina. Avisa se Preparação estiver pronta e as três habilidades estiverem em recarga.
 
-Cada lembrete pode ser ativado separadamente e tem seu próprio som. Por padrão, a síntese de voz anuncia o nome localizado da habilidade. Se o Retail revelar o estágio com atraso, o aviso ainda pode tocar durante a mesma rolagem.
+Cada lembrete pode ser ativado separadamente e tem seu próprio som. Por padrão, o texto em fala anuncia o nome localizado da habilidade. Se o Retail revelar o estágio com atraso, o aviso ainda pode tocar durante a mesma rolagem.
