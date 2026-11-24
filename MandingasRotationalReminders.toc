@@ -1,6 +1,7 @@
 ## Interface: 120105
 ## Title: Mandinga's Rotational Reminders
 ## Notes: A collection of class- and specialization-specific rotation reminders with configurable audio alerts.
+## Notes-ptBR: Coleção de lembretes de rotação por classe e especialização com alertas sonoros configuráveis.
 ## Version: @project-version@
 ## X-Curse-Project-ID: 1826447
 ## SavedVariables: MandingasRotationalRemindersDB

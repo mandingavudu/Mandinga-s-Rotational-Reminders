@@ -3,7 +3,7 @@ local addonName, addon = ...
 local TEXT_TO_SPEECH = Enum.CooldownViewerSound.TextToSpeech
 local isPortuguese = GetLocale() == "ptBR"
 local textToSpeechLabel = COOLDOWN_VIEWER_SETTINGS_ALERT_LABEL_SOUND_TYPE_TEXT_TO_SPEECH or TEXT_TO_SPEECH_LABEL
-    or (isPortuguese and "Síntese de voz" or "Text-to-Speech")
+    or (isPortuguese and "Texto em Fala" or "Text-to-Speech")
 
 local function RegisterReminder(category, reminder)
     local settings = addon.settings
@@ -122,7 +122,7 @@ local function RegisterOptions()
         fallbackName = isPortuguese and "Garrote Aprimorado" or "Improved Garrote",
         tooltip = isPortuguese
             and "Toca um aviso antes de terminar o efeito de Garrote Aprimorado."
-                .. " A síntese de voz (TTS) usa o nome localizado da habilidade Garrote."
+                .. " O texto em fala (TTS) usa o nome localizado da habilidade Garrote."
             or "Plays an alert before your Improved Garrote buff expires."
                 .. " Text-to-speech (TTS) uses the localized name of the Garrote spell.",
         refreshTracking = addon.RefreshImprovedGarroteTracking,
@@ -135,9 +135,9 @@ local function RegisterOptions()
         key = "rollTheBones",
         variable = "ROLL_THE_BONES",
         spellID = addon.rollTheBonesSpellID,
-        fallbackName = isPortuguese and "Rolar os Dados" or "Roll the Bones",
+        fallbackName = isPortuguese and "Golpe de Sorte" or "Roll the Bones",
         tooltip = isPortuguese
-            and "Avisa quando a habilidade está pronta e faltam 2 segundos para o efeito terminar. Também avisa quando a recarga acaba sem efeito ativo, no estágio 1 ou no estágio 2 com Dados Viciados ativo."
+            and "Avisa quando a habilidade está pronta e faltam 2 segundos para o efeito terminar. Também avisa quando a recarga acaba sem efeito ativo, no estágio 1 ou no estágio 2 com o bônus de Dados Viciados ativo."
             or "Alerts when Roll the Bones is ready and the buff has 2 seconds remaining. It also alerts on recharge with no active roll, at stage 1, or at stage 2 with Loaded Dice active.",
         refreshTracking = addon.RefreshCooldownReminderTracking,
     })
@@ -145,9 +145,9 @@ local function RegisterOptions()
         key = "keepItRolling",
         variable = "KEEP_IT_ROLLING",
         spellID = addon.keepItRollingSpellID,
-        fallbackName = "Keep It Rolling",
+        fallbackName = isPortuguese and "Sorte Grande" or "Keep It Rolling",
         tooltip = isPortuguese
-            and "Toca um aviso quando a recarga acaba com um resultado no estágio 3 ou superior, ou quando um novo resultado nesse estágio é aplicado com a habilidade pronta."
+            and "Avisa quando a recarga acaba com um resultado de Golpe de Sorte no estágio 3 ou superior, ou quando você obtém um resultado nesses estágios com Sorte Grande pronta."
             or "Alerts when Keep It Rolling finishes recharging with a stage 3 or higher roll, or when a new roll of stage 3 or higher is applied while Keep It Rolling is ready.",
         refreshTracking = addon.RefreshCooldownReminderTracking,
     })
@@ -157,10 +157,10 @@ local function RegisterOptions()
         spellID = addon.preparationSpellID,
         fallbackName = isPortuguese and "Preparação" or "Preparation",
         tooltip = isPortuguese
-            and ("Verifica após usar %s, %s ou %s. Avisa se Preparação estiver pronta e as três habilidades estiverem em recarga."):format(
-                addon.GetReminderSpellName(13750) or "Adrenaline Rush",
-                addon.GetReminderSpellName(51690) or "Killing Spree",
-                addon.GetReminderSpellName(271877) or "Blade Rush")
+            and ("Verifica as recargas após você usar %s, %s ou %s. Avisa se Preparação estiver pronta e as três habilidades estiverem em recarga."):format(
+                addon.GetReminderSpellName(13750) or "Adrenalina",
+                addon.GetReminderSpellName(51690) or "Matança",
+                addon.GetReminderSpellName(271877) or "Ímpeto da Lâmina")
             or "Checks after casting Adrenaline Rush, Killing Spree, or Blade Rush. Alerts if Preparation is ready and all three spells are on cooldown.",
         refreshTracking = addon.RefreshCooldownReminderTracking,
     })
