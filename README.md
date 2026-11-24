@@ -39,7 +39,7 @@ Plays an alert once before the Improved Garrote buff expires. Set the lead time 
 - **Keep It Rolling** alerts when it finishes recharging with a stage 3 or 4 roll, or when a new roll of stage 3 or 4 is applied while it is ready. The default alert uses the Jackpot sound from the Liberation of Undermine tier sets.
 - **Preparation** checks after you cast Adrenaline Rush, Killing Spree, or Blade Rush. It alerts if Preparation is ready and all three spells are on cooldown.
 
-Preparation uses text-to-speech by default, announcing the localized spell name. A stage-based alert can play later in the same roll if Retail exposes the stage after the trigger.
+Roll the Bones and Keep It Rolling offer the short text-to-speech phrases “Roll” and “Jackpot” in their sound pickers. Preparation uses text-to-speech by default, announcing the localized spell name. A stage-based alert can play later in the same roll if Retail exposes the stage after the trigger.
 
 ## Português (Brasil)
 
@@ -80,4 +80,4 @@ Toca um aviso uma vez antes de terminar o efeito de Garrote Aprimorado. Ajuste a
 - **Sorte Grande** avisa quando a recarga acaba com um resultado de Golpe de Sorte no estágio 3 ou 4, ou quando você obtém um resultado nesses estágios com Sorte Grande pronta. O aviso padrão usa o som de jackpot dos conjuntos de classe da Libertação da Inframina.
 - **Preparação** verifica as recargas após você usar Adrenalina, Matança ou Ímpeto da Lâmina. Avisa se Preparação estiver pronta e as três habilidades estiverem em recarga.
 
-Preparação anuncia por padrão o nome localizado da habilidade por texto em fala. Se o Retail revelar o estágio com atraso, o aviso ainda pode tocar durante a mesma rolagem.
+Golpe de Sorte e Sorte Grande oferecem as frases curtas “Role” e “Jackpot” no seletor de sons. Preparação anuncia por padrão o nome localizado da habilidade por texto em fala. Se o Retail revelar o estágio com atraso, o aviso ainda pode tocar durante a mesma rolagem.

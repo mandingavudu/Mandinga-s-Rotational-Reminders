@@ -32,6 +32,8 @@ local function RegisterReminder(category, reminder)
     enabledSetting:SetValueChangedCallback(reminder.refreshTracking)
 
     local soundLabel = isPortuguese and "Som do aviso" or "Alert sound"
+    local alternateTTSSound = reminder.alternateTTSSound
+    local fullTTSLabel = alternateTTSSound and ("%s (%s)"):format(textToSpeechLabel, spellName) or textToSpeechLabel
     local soundSetting = Settings.RegisterAddOnSetting(category, variable .. "_SOUND",
         soundKey, settings, Settings.VarType.Number, soundLabel, defaultSound)
     local soundControl = Settings.CreateDropdown(category, soundSetting, function()
@@ -45,6 +47,7 @@ local function RegisterReminder(category, reminder)
     local function IsSelected(sound)
         local selected = soundSetting:GetValue()
         if selected == defaultSound or selected == TEXT_TO_SPEECH
+            or (alternateTTSSound and selected == alternateTTSSound)
             or (CooldownViewerUtil and CooldownViewerUtil.GetSoundTypeText(selected)) then
             return selected == sound
         end
@@ -56,8 +59,8 @@ local function RegisterReminder(category, reminder)
     end
 
     soundControl.customOptionHandler = function(rootDescription)
-        if reminder.defaultSoundLabel then
-            local radio = rootDescription:CreateRadio(reminder.defaultSoundLabel, IsSelected, SetSelected, defaultSound)
+        local function AddCustomSound(label, sound)
+            local radio = rootDescription:CreateRadio(label, IsSelected, SetSelected, sound)
             if CooldownViewerAlert_SetupTypeButton then
                 radio:AddInitializer(function(button)
                     local preview = MenuTemplates.AttachUtilityButton(button)
@@ -66,13 +69,21 @@ local function RegisterReminder(category, reminder)
                     MenuTemplates.SetUtilityButtonAnchor(preview, MenuVariants.GearButtonAnchor, button, 0, 0)
                     MenuTemplates.SetUtilityButtonTooltipText(preview, COOLDOWN_VIEWER_SETTINGS_ALERT_MENU_PLAY_SAMPLE)
                     MenuTemplates.SetUtilityButtonClickHandler(preview, function()
-                        addon.PlayReminderSound(defaultSound)
+                        addon.PlayReminderSound(sound, reminder.spellID, Enum.CooldownViewerAlertEventType.Available)
                     end)
                 end)
             end
         end
+
+        if reminder.defaultSoundLabel then
+            AddCustomSound(reminder.defaultSoundLabel, defaultSound)
+        end
+        local alternateText = alternateTTSSound and addon.GetReminderTTSText(alternateTTSSound)
+        if alternateText then
+            AddCustomSound(("%s (%s)"):format(textToSpeechLabel, alternateText), alternateTTSSound)
+        end
         if not CooldownViewerUtil then
-            rootDescription:CreateRadio(textToSpeechLabel, IsSelected, SetSelected, TEXT_TO_SPEECH)
+            rootDescription:CreateRadio(fullTTSLabel, IsSelected, SetSelected, TEXT_TO_SPEECH)
             return
         end
 
@@ -81,7 +92,7 @@ local function RegisterReminder(category, reminder)
         end
         local useHighlightStyle = false
         CooldownViewerUtil.AddSoundAlertRadio({
-            text = textToSpeechLabel,
+            text = fullTTSLabel,
             soundEnum = TEXT_TO_SPEECH,
             spellName = addon.GetReminderSpellName(reminder.spokenSpellID or reminder.spellID),
         }, CreateRadio, IsSelected, SetSelected, useHighlightStyle)
@@ -176,6 +187,7 @@ local function RegisterOptions()
         defaultSound = addon.ROLL_THE_BONES_CAST_SOUND,
         defaultSoundLabel = isPortuguese and "Som de Golpe de Sorte" or "Roll the Bones cast sound",
         defaultSoundMigrationKey = "rollTheBonesCastSoundMigrated",
+        alternateTTSSound = addon.ROLL_THE_BONES_TTS,
         tooltip = isPortuguese
             and "Avisa quando a habilidade está pronta e faltam 2 segundos para o efeito terminar. Ao entrar em combate ou ao terminar a recarga, avisa se a habilidade estiver pronta e você estiver sem efeito ativo, no estágio 1 ou no estágio 2 com o bônus de Dados Viciados ativo."
             or "Alerts when Roll the Bones is ready and the buff has 2 seconds remaining. On combat entry or recharge, it alerts if the spell is ready and you have no active roll, a stage 1 roll, or a stage 2 roll with Loaded Dice active.",
@@ -189,6 +201,7 @@ local function RegisterOptions()
         defaultSound = addon.JACKPOT_SOUND,
         defaultSoundLabel = isPortuguese and "Jackpot da Inframina" or "Undermine Jackpot",
         defaultSoundMigrationKey = "keepItRollingJackpotMigrated",
+        alternateTTSSound = addon.KEEP_IT_ROLLING_TTS,
         tooltip = isPortuguese
             and "Avisa quando a recarga acaba com um resultado de Golpe de Sorte no estágio 3 ou superior, ou quando você obtém um resultado nesses estágios com Sorte Grande pronta."
             or "Alerts when Keep It Rolling finishes recharging with a stage 3 or higher roll, or when a new roll of stage 3 or higher is applied while Keep It Rolling is ready.",
