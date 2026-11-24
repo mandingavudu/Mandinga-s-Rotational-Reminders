@@ -6,6 +6,8 @@ A collection of class- and specialization-specific rotation reminders for World 
 
 Open **Options → AddOns → Mandinga's Rotational Reminders** or type `/mrr` to toggle reminders and choose their sounds. The sound picker offers text-to-speech and the Cooldown Manager catalog when available. Sound effects play through **Gameplay SFX**.
 
+Under **General**, **Duplicate non-TTS sounds** plays two simultaneous copies of each alert sound effect for extra volume. It is enabled by default. Text-to-speech plays once per alert.
+
 ### Cooldown Manager setup
 
 When Retail restricts direct aura lookups, add the following buffs to a visible **Tracked Buffs** or **Tracked Bars** section in the Cooldown Manager.
@@ -44,6 +46,8 @@ Preparation uses text-to-speech by default, announcing the localized spell name.
 Uma coleção de lembretes de rotação por classe e especialização para World of Warcraft Retail.
 
 Abra **Opções → AddOns → Mandinga's Rotational Reminders** ou digite `/mrr` para ativar ou desativar os lembretes e escolher seus sons. O seletor oferece texto em fala e, quando disponível, o catálogo do Gerenciador de Recarga. Os efeitos sonoros usam a categoria **Gameplay SFX**.
+
+Em **Geral**, a opção **Duplicar sons sem TTS** toca duas cópias simultâneas do efeito sonoro de cada aviso para aumentar o volume. A opção vem ativada por padrão. O texto em fala toca uma vez por aviso.
 
 ### Configuração do Gerenciador de Recarga
 

@@ -26,11 +26,16 @@ function addon.PlayReminderSound(sound, spellID, alertEvent)
         soundKit = CooldownViewerUtil.GetSoundTypeSoundKit(sound)
     end
     if soundKit then
-        C_Sound.PlaySoundWithOptions({
+        local options = {
             soundKitID = soundKit,
             uiSoundSubType = CDM_SOUND_SUBTYPE,
             volumeOverride = volumeOverride,
-        })
+            forceNoDuplicates = false,
+        }
+        -- Mix a second instance into the same alert to boost its level on Gameplay SFX.
+        if C_Sound.PlaySoundWithOptions(options) and addon.settings.duplicateSoundEffects then
+            C_Sound.PlaySoundWithOptions(options)
+        end
         return
     end
 

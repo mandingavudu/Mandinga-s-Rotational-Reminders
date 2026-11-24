@@ -124,6 +124,19 @@ local function RegisterOptions()
     addon.settings = MandingasRotationalRemindersDB
 
     local category, layout = Settings.RegisterVerticalLayoutCategory("Mandinga's Rotational Reminders")
+    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(isPortuguese and "Geral" or "General"))
+    local settings = addon.settings
+    if type(settings.duplicateSoundEffects) ~= "boolean" then
+        settings.duplicateSoundEffects = true
+    end
+    local duplicateLabel = isPortuguese and "Duplicar sons sem TTS" or "Duplicate non-TTS sounds"
+    local duplicateTooltip = isPortuguese
+        and "Toca duas cópias simultâneas do efeito sonoro de cada aviso para aumentar o volume. O texto em fala toca uma vez por aviso."
+        or "Plays two simultaneous copies of each alert sound effect for extra volume. Text-to-speech plays once per alert."
+    local duplicateSetting = Settings.RegisterAddOnSetting(category, addonName .. "_DUPLICATE_SOUND_EFFECTS",
+        "duplicateSoundEffects", settings, Settings.VarType.Boolean, duplicateLabel, true)
+    Settings.CreateCheckbox(category, duplicateSetting, duplicateTooltip)
+
     layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(
         isPortuguese and "Ladino de Subterfúgio" or "Subtlety Rogue"))
     RegisterReminder(category, {
