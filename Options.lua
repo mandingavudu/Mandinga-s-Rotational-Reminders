@@ -10,19 +10,11 @@ local function RegisterReminder(category, reminder)
     local enabledKey = reminder.key .. "Enabled"
     local soundKey = reminder.key .. "Sound"
     local variable = addonName .. "_" .. reminder.variable
-    local defaultSound = reminder.defaultSound or TEXT_TO_SPEECH
-    local migrationKey = reminder.defaultSoundMigrationKey
-    if migrationKey and not settings[migrationKey] then
-        if settings[soundKey] == TEXT_TO_SPEECH then
-            settings[soundKey] = defaultSound
-        end
-        settings[migrationKey] = true
-    end
     if type(settings[enabledKey]) ~= "boolean" then
         settings[enabledKey] = true
     end
     if type(settings[soundKey]) ~= "number" then
-        settings[soundKey] = defaultSound
+        settings[soundKey] = TEXT_TO_SPEECH
     end
     local spellName = addon.GetReminderSpellName(reminder.spellID) or reminder.fallbackName
     local enabledLabel = (isPortuguese and "Ativar lembrete de %s" or "Enable %s reminder"):format(spellName)
@@ -32,10 +24,11 @@ local function RegisterReminder(category, reminder)
     enabledSetting:SetValueChangedCallback(reminder.refreshTracking)
 
     local soundLabel = isPortuguese and "Som do aviso" or "Alert sound"
+    local customSound = reminder.customSound
     local alternateTTSSound = reminder.alternateTTSSound
     local fullTTSLabel = alternateTTSSound and ("%s (%s)"):format(textToSpeechLabel, spellName) or textToSpeechLabel
     local soundSetting = Settings.RegisterAddOnSetting(category, variable .. "_SOUND",
-        soundKey, settings, Settings.VarType.Number, soundLabel, defaultSound)
+        soundKey, settings, Settings.VarType.Number, soundLabel, TEXT_TO_SPEECH)
     local soundControl = Settings.CreateDropdown(category, soundSetting, function()
         return {}
     end)
@@ -46,7 +39,7 @@ local function RegisterReminder(category, reminder)
 
     local function IsSelected(sound)
         local selected = soundSetting:GetValue()
-        if selected == defaultSound or selected == TEXT_TO_SPEECH
+        if selected == TEXT_TO_SPEECH or (customSound and selected == customSound)
             or (alternateTTSSound and selected == alternateTTSSound)
             or (CooldownViewerUtil and CooldownViewerUtil.GetSoundTypeText(selected)) then
             return selected == sound
@@ -75,28 +68,29 @@ local function RegisterReminder(category, reminder)
             end
         end
 
-        if reminder.defaultSoundLabel then
-            AddCustomSound(reminder.defaultSoundLabel, defaultSound)
+        local useHighlightStyle = false
+        if CooldownViewerUtil then
+            local function CreateRadio(...)
+                return rootDescription:CreateRadio(...)
+            end
+            CooldownViewerUtil.AddSoundAlertRadio({
+                text = fullTTSLabel,
+                soundEnum = TEXT_TO_SPEECH,
+                spellName = spellName,
+            }, CreateRadio, IsSelected, SetSelected, useHighlightStyle)
+        else
+            rootDescription:CreateRadio(fullTTSLabel, IsSelected, SetSelected, TEXT_TO_SPEECH)
         end
         local alternateText = alternateTTSSound and addon.GetReminderTTSText(alternateTTSSound)
         if alternateText then
             AddCustomSound(("%s (%s)"):format(textToSpeechLabel, alternateText), alternateTTSSound)
         end
-        if not CooldownViewerUtil then
-            rootDescription:CreateRadio(fullTTSLabel, IsSelected, SetSelected, TEXT_TO_SPEECH)
-            return
+        if customSound then
+            AddCustomSound(reminder.customSoundLabel, customSound)
         end
-
-        local function CreateRadio(...)
-            return rootDescription:CreateRadio(...)
+        if CooldownViewerUtil then
+            CooldownViewerUtil.BuildSoundMenus(rootDescription, IsSelected, SetSelected, useHighlightStyle)
         end
-        local useHighlightStyle = false
-        CooldownViewerUtil.AddSoundAlertRadio({
-            text = fullTTSLabel,
-            soundEnum = TEXT_TO_SPEECH,
-            spellName = spellName,
-        }, CreateRadio, IsSelected, SetSelected, useHighlightStyle)
-        CooldownViewerUtil.BuildSoundMenus(rootDescription, IsSelected, SetSelected, useHighlightStyle)
     end
     return enabledControl, enabledSetting
 end
@@ -184,9 +178,8 @@ local function RegisterOptions()
         variable = "ROLL_THE_BONES",
         spellID = addon.rollTheBonesSpellID,
         fallbackName = isPortuguese and "Golpe de Sorte" or "Roll the Bones",
-        defaultSound = addon.ROLL_THE_BONES_CAST_SOUND,
-        defaultSoundLabel = isPortuguese and "Som de Golpe de Sorte" or "Roll the Bones cast sound",
-        defaultSoundMigrationKey = "rollTheBonesCastSoundMigrated",
+        customSound = addon.ROLL_THE_BONES_CAST_SOUND,
+        customSoundLabel = isPortuguese and "Som de Golpe de Sorte" or "Roll the Bones cast sound",
         alternateTTSSound = addon.ROLL_THE_BONES_TTS,
         tooltip = isPortuguese
             and "Avisa quando a habilidade está pronta e faltam 2 segundos para o efeito terminar. Ao entrar em combate ou ao terminar a recarga, avisa se a habilidade estiver pronta e você estiver sem efeito ativo, no estágio 1 ou no estágio 2 com o bônus de Dados Viciados ativo."
@@ -198,9 +191,8 @@ local function RegisterOptions()
         variable = "KEEP_IT_ROLLING",
         spellID = addon.keepItRollingSpellID,
         fallbackName = isPortuguese and "Sorte Grande" or "Keep It Rolling",
-        defaultSound = addon.JACKPOT_SOUND,
-        defaultSoundLabel = isPortuguese and "Jackpot da Inframina" or "Undermine Jackpot",
-        defaultSoundMigrationKey = "keepItRollingJackpotMigrated",
+        customSound = addon.JACKPOT_SOUND,
+        customSoundLabel = isPortuguese and "Jackpot da Inframina" or "Undermine Jackpot",
         alternateTTSSound = addon.KEEP_IT_ROLLING_TTS,
         tooltip = isPortuguese
             and "Avisa quando a recarga acaba com um resultado de Golpe de Sorte no estágio 3 ou superior, ou quando você obtém um resultado nesses estágios com Sorte Grande pronta."
