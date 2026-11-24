@@ -19,6 +19,10 @@ When Shadow Dance ends while Shadow Blades is still active, the addon plays the 
 
 Plays an alert once before the Improved Garrote buff expires. Set the lead time from 0.5 to 5 seconds in `/mrr`. The default is 1.5 seconds. If the game hides the aura timer, the reminder estimates the remaining time from the six-second window after leaving Stealth. By default, WoW’s text-to-speech announces the localized name of Garrote.
 
+#### Outlaw Rogue
+
+- **Preparation** checks after you cast Adrenaline Rush, Killing Spree, or Blade Rush. It alerts if Preparation is ready and all three spells are on cooldown.
+
 ## Português
 
 Uma coleção de lembretes de rotação por classe e especialização para World of Warcraft Retail.
@@ -37,3 +41,7 @@ Quando Dança das Sombras termina e o efeito de Lâminas Sombrias permanece ativ
 #### Ladino de Assassinato
 
 Toca um aviso uma vez antes de terminar o efeito de Garrote Aprimorado. Ajuste a antecedência de 0,5 a 5 segundos em `/mrr`. O padrão é 1,5 segundo. Se o jogo ocultar o temporizador do efeito, o lembrete estima o tempo restante usando a janela de seis segundos após sair de Furtividade. Por padrão, a síntese de voz do WoW anuncia o nome localizado de Garrote.
+
+#### Ladino Fora da Lei
+
+- **Preparação** verifica após usar Adrenaline Rush, Killing Spree ou Blade Rush. Avisa se Preparação estiver pronta e as três habilidades estiverem em recarga.

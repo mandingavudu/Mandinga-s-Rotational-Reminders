@@ -129,6 +129,21 @@ local function RegisterOptions()
     })
     RegisterImprovedGarroteTiming(category, garroteEnabledControl, garroteEnabledSetting)
 
+    RegisterReminder(category, layout, {
+        key = "preparation",
+        variable = "PREPARATION",
+        spellID = addon.preparationSpellID,
+        section = isPortuguese and "Ladino Fora da Lei" or "Outlaw Rogue",
+        fallbackName = isPortuguese and "Preparação" or "Preparation",
+        tooltip = isPortuguese
+            and ("Verifica após usar %s, %s ou %s. Avisa se Preparação estiver pronta e as três habilidades estiverem em recarga."):format(
+                addon.GetReminderSpellName(13750) or "Adrenaline Rush",
+                addon.GetReminderSpellName(51690) or "Killing Spree",
+                addon.GetReminderSpellName(271877) or "Blade Rush")
+            or "Checks after casting Adrenaline Rush, Killing Spree, or Blade Rush. Alerts if Preparation is ready and all three spells are on cooldown.",
+        refreshTracking = addon.RefreshCooldownReminderTracking,
+    })
+
     Settings.RegisterAddOnCategory(category)
     SLASH_MANDINGASROTATIONALREMINDERS1 = "/mrr"
     SlashCmdList.MANDINGASROTATIONALREMINDERS = function()
