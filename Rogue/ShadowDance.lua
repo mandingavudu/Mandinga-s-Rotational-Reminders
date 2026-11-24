@@ -6,6 +6,7 @@ local SHADOW_DANCE_AURA = 185422
 local SHADOW_BLADES = 121471
 
 addon.shadowDanceSpellID = SHADOW_DANCE
+addon.shadowBladesSpellID = SHADOW_BLADES
 
 local viewerNames = { "BuffIconCooldownViewer", "BuffBarCooldownViewer" }
 local hookedViewers = setmetatable({}, { __mode = "k" })
