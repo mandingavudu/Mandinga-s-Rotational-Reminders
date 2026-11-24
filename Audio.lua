@@ -2,8 +2,10 @@ local _, addon = ...
 
 local CDM_SOUND_SUBTYPE = "Gameplay SFX"
 local TEXT_TO_SPEECH = Enum.CooldownViewerSound.TextToSpeech
+local JACKPOT_SOUND_KIT_ID = 283499 -- Liberation of Undermine tier set proc
 local ROLL_THE_BONES_SOUND_KIT_ID = 58682
 
+addon.JACKPOT_SOUND = -1
 addon.ROLL_THE_BONES_CAST_SOUND = -2
 
 function addon.GetReminderSpellName(spellID)
@@ -15,7 +17,9 @@ end
 
 function addon.PlayReminderSound(sound, spellID, alertEvent)
     local soundKit, volumeOverride
-    if sound == addon.ROLL_THE_BONES_CAST_SOUND then
+    if sound == addon.JACKPOT_SOUND then
+        soundKit = JACKPOT_SOUND_KIT_ID
+    elseif sound == addon.ROLL_THE_BONES_CAST_SOUND then
         soundKit = ROLL_THE_BONES_SOUND_KIT_ID
         volumeOverride = 1.0 -- The cast kit's base volume is about 0.5.
     elseif sound ~= TEXT_TO_SPEECH and CooldownViewerUtil then

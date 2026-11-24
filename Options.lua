@@ -173,6 +173,9 @@ local function RegisterOptions()
         variable = "KEEP_IT_ROLLING",
         spellID = addon.keepItRollingSpellID,
         fallbackName = isPortuguese and "Sorte Grande" or "Keep It Rolling",
+        defaultSound = addon.JACKPOT_SOUND,
+        defaultSoundLabel = isPortuguese and "Jackpot da Inframina" or "Undermine Jackpot",
+        defaultSoundMigrationKey = "keepItRollingJackpotMigrated",
         tooltip = isPortuguese
             and "Avisa quando a recarga acaba com um resultado de Golpe de Sorte no estágio 3 ou superior, ou quando você obtém um resultado nesses estágios com Sorte Grande pronta."
             or "Alerts when Keep It Rolling finishes recharging with a stage 3 or higher roll, or when a new roll of stage 3 or higher is applied while Keep It Rolling is ready.",

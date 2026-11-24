@@ -34,10 +34,10 @@ Plays an alert once before the Improved Garrote buff expires. Set the lead time 
 #### Outlaw Rogue
 
 - **Roll the Bones** alerts with 2 seconds left on the buff while the spell is ready. If Retail hides the timer, the addon estimates it from your Roll the Bones and Keep It Rolling casts. It also alerts on recharge with no active roll, at stage 1, or at stage 2 with Loaded Dice active. The default alert plays the spell’s cast sound at boosted volume.
-- **Keep It Rolling** alerts when it finishes recharging with a stage 3 or 4 roll, or when a new roll of stage 3 or 4 is applied while it is ready.
+- **Keep It Rolling** alerts when it finishes recharging with a stage 3 or 4 roll, or when a new roll of stage 3 or 4 is applied while it is ready. The default alert uses the Jackpot sound from the Liberation of Undermine tier sets.
 - **Preparation** checks after you cast Adrenaline Rush, Killing Spree, or Blade Rush. It alerts if Preparation is ready and all three spells are on cooldown.
 
-Keep It Rolling and Preparation use text-to-speech by default, announcing the localized spell name. A stage-based alert can play later in the same roll if Retail exposes the stage after the trigger.
+Preparation uses text-to-speech by default, announcing the localized spell name. A stage-based alert can play later in the same roll if Retail exposes the stage after the trigger.
 
 ## Português (Brasil)
 
@@ -73,7 +73,7 @@ Toca um aviso uma vez antes de terminar o efeito de Garrote Aprimorado. Ajuste a
 #### Ladino Fora da Lei
 
 - **Golpe de Sorte** avisa quando a habilidade está pronta e faltam 2 segundos para o efeito terminar. Se o Retail ocultar o temporizador, o addon estima o tempo a partir das ativações de Golpe de Sorte e Sorte Grande. Também avisa quando a recarga acaba sem efeito ativo, no estágio 1 ou no estágio 2 com o bônus de Dados Viciados ativo. O aviso padrão toca o som da habilidade com volume reforçado.
-- **Sorte Grande** avisa quando a recarga acaba com um resultado de Golpe de Sorte no estágio 3 ou 4, ou quando você obtém um resultado nesses estágios com Sorte Grande pronta.
+- **Sorte Grande** avisa quando a recarga acaba com um resultado de Golpe de Sorte no estágio 3 ou 4, ou quando você obtém um resultado nesses estágios com Sorte Grande pronta. O aviso padrão usa o som de jackpot dos conjuntos de classe da Libertação da Inframina.
 - **Preparação** verifica as recargas após você usar Adrenalina, Matança ou Ímpeto da Lâmina. Avisa se Preparação estiver pronta e as três habilidades estiverem em recarga.
 
-Sorte Grande e Preparação anunciam por padrão o nome localizado da habilidade por texto em fala. Se o Retail revelar o estágio com atraso, o aviso ainda pode tocar durante a mesma rolagem.
+Preparação anuncia por padrão o nome localizado da habilidade por texto em fala. Se o Retail revelar o estágio com atraso, o aviso ainda pode tocar durante a mesma rolagem.
