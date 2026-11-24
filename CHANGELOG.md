@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.0
+
+- **Roll the Bones** also alerts when you enter combat with the spell ready and either no active roll, a stage 1 roll, or a stage 2 roll with Loaded Dice active. Choose the spell’s cast sound or short text-to-speech (TTS) that speaks “Roll” in English and “Role” in Brazilian Portuguese.
+- **Keep It Rolling** offers the original Jackpot sound effect from the Liberation of Undermine tier sets and a TTS option that speaks “Jackpot.”
+- **Improved Garrote** uses its own localized spell name for standard TTS and offers **Garrote** as an alternate.
+- Default every reminder to TTS with its full localized spell name. Existing sound selections carry over.
+- Add **Duplicate non-TTS sounds** under **General** in `/mrr`. Enabled by default, it plays two simultaneous copies of each alert sound effect for extra volume. TTS plays once per alert.
+- Update the bilingual README to cover combat-entry checks, their tracked buffs, and overlapping TTS alerts from the addon, other addons, and the Cooldown Manager. Format spell names as inline code.
+
 ## 1.1.1
 
 - Use Retail’s Brazilian Portuguese spell and menu names in the settings and README, and localize the addon-list description.
