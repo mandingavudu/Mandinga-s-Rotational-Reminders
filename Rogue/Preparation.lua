@@ -10,6 +10,7 @@ local preparationCooldowns = {
 }
 
 addon.preparationSpellID = PREPARATION
+addon.preparationCooldownSpellIDs = preparationCooldowns
 
 local function GetPreparationAlert(sample)
     local now = GetTime()

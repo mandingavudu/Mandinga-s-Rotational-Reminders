@@ -24,6 +24,7 @@ local hookedViewers = setmetatable({}, { __mode = "k" })
 local hookedItems = setmetatable({}, { __mode = "k" })
 
 addon.rollTheBonesSpellID = ROLL_THE_BONES
+addon.loadedDiceSpellID = LOADED_DICE
 
 local function GetAuraExpiration(aura)
     if not issecretvalue(aura) and type(aura) == "table" then
