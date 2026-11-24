@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.0
+
+- Move Rogue reminders into a class subpage grouped by specialization. `/mrr` opens the main page, where the global sound setting is under **Audio**.
+- Use Retail’s localized class, specialization, spell, and map names in the settings, along with Blizzard’s audio labels and decimal separator. Read the main page title from the addon metadata.
+
 ## 1.2.0
 
 - **Roll the Bones** also alerts when you enter combat with the spell ready and either no active roll, a stage 1 roll, or a stage 2 roll with Loaded Dice active. Choose the spell’s cast sound or short text-to-speech (TTS) that speaks “Roll” in English and “Role” in Brazilian Portuguese.
