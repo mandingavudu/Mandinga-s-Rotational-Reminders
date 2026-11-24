@@ -5,7 +5,7 @@ local isPortuguese = GetLocale() == "ptBR"
 local textToSpeechLabel = COOLDOWN_VIEWER_SETTINGS_ALERT_LABEL_SOUND_TYPE_TEXT_TO_SPEECH or TEXT_TO_SPEECH_LABEL
     or (isPortuguese and "Síntese de voz" or "Text-to-Speech")
 
-local function RegisterReminder(category, layout, reminder)
+local function RegisterReminder(category, reminder)
     local settings = addon.settings
     local enabledKey = reminder.key .. "Enabled"
     local soundKey = reminder.key .. "Sound"
@@ -16,8 +16,6 @@ local function RegisterReminder(category, layout, reminder)
     if type(settings[soundKey]) ~= "number" then
         settings[soundKey] = TEXT_TO_SPEECH
     end
-    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(reminder.section))
-
     local spellName = addon.GetReminderSpellName(reminder.spellID) or reminder.fallbackName
     local enabledLabel = (isPortuguese and "Ativar lembrete de %s" or "Enable %s reminder"):format(spellName)
     local enabledSetting = Settings.RegisterAddOnSetting(category, variable .. "_ENABLED",
@@ -102,23 +100,25 @@ local function RegisterOptions()
     addon.settings = MandingasRotationalRemindersDB
 
     local category, layout = Settings.RegisterVerticalLayoutCategory("Mandinga's Rotational Reminders")
-    RegisterReminder(category, layout, {
+    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(
+        isPortuguese and "Ladino de Subterfúgio" or "Subtlety Rogue"))
+    RegisterReminder(category, {
         key = "shadowDance",
         variable = "SHADOW_DANCE",
         spellID = addon.shadowDanceSpellID,
-        section = isPortuguese and "Ladino de Subterfúgio" or "Subtlety Rogue",
         fallbackName = isPortuguese and "Dança das Sombras" or "Shadow Dance",
         tooltip = isPortuguese
             and "Toca um aviso quando Dança das Sombras termina e o efeito de Lâminas Sombrias permanece ativo."
             or "Plays an alert when Shadow Dance ends while Shadow Blades is still active.",
         refreshTracking = addon.RefreshShadowDanceTracking,
     })
-    local garroteEnabledControl, garroteEnabledSetting = RegisterReminder(category, layout, {
+    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(
+        isPortuguese and "Ladino de Assassinato" or "Assassination Rogue"))
+    local garroteEnabledControl, garroteEnabledSetting = RegisterReminder(category, {
         key = "improvedGarrote",
         variable = "IMPROVED_GARROTE",
         spellID = addon.improvedGarroteSpellID,
         spokenSpellID = addon.garroteSpellID,
-        section = isPortuguese and "Ladino de Assassinato" or "Assassination Rogue",
         fallbackName = isPortuguese and "Garrote Aprimorado" or "Improved Garrote",
         tooltip = isPortuguese
             and "Toca um aviso antes de terminar o efeito de Garrote Aprimorado."
@@ -129,11 +129,22 @@ local function RegisterOptions()
     })
     RegisterImprovedGarroteTiming(category, garroteEnabledControl, garroteEnabledSetting)
 
-    RegisterReminder(category, layout, {
+    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(
+        isPortuguese and "Ladino Fora da Lei" or "Outlaw Rogue"))
+    RegisterReminder(category, {
+        key = "rollTheBones",
+        variable = "ROLL_THE_BONES",
+        spellID = addon.rollTheBonesSpellID,
+        fallbackName = isPortuguese and "Rolar os Dados" or "Roll the Bones",
+        tooltip = isPortuguese
+            and "Toca um aviso quando faltam 2 segundos para o efeito terminar ou quando a recarga acaba com um resultado no estágio 1 ou no estágio 2 com Dados Viciados ativo."
+            or "Alerts when the buff has 2 seconds remaining, or when Roll the Bones finishes recharging at stage 1 or at stage 2 with Loaded Dice active.",
+        refreshTracking = addon.RefreshCooldownReminderTracking,
+    })
+    RegisterReminder(category, {
         key = "preparation",
         variable = "PREPARATION",
         spellID = addon.preparationSpellID,
-        section = isPortuguese and "Ladino Fora da Lei" or "Outlaw Rogue",
         fallbackName = isPortuguese and "Preparação" or "Preparation",
         tooltip = isPortuguese
             and ("Verifica após usar %s, %s ou %s. Avisa se Preparação estiver pronta e as três habilidades estiverem em recarga."):format(
