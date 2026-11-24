@@ -17,7 +17,7 @@ When Shadow Dance ends while Shadow Blades is still active, the addon plays the 
 
 #### Assassination Rogue
 
-Plays an alert once when the Improved Garrote buff has 1.5 seconds remaining after Stealth breaks. If the game hides the aura timer, the reminder estimates the remaining time from the six-second window after leaving Stealth. By default, WoW’s text-to-speech announces the localized name of Garrote.
+Plays an alert once before the Improved Garrote buff expires. Set the lead time from 0.5 to 5 seconds in `/mrr`. The default is 1.5 seconds. If the game hides the aura timer, the reminder estimates the remaining time from the six-second window after leaving Stealth. By default, WoW’s text-to-speech announces the localized name of Garrote.
 
 ## Português
 
@@ -36,4 +36,4 @@ Quando Dança das Sombras termina e o efeito de Lâminas Sombrias permanece ativ
 
 #### Ladino de Assassinato
 
-Toca um aviso uma vez quando faltam 1,5 segundo para terminar o efeito de Garrote Aprimorado após sair de Furtividade. Se o jogo ocultar o temporizador do efeito, o lembrete estima o tempo restante usando a janela de seis segundos após sair de Furtividade. Por padrão, a síntese de voz do WoW anuncia o nome localizado de Garrote.
+Toca um aviso uma vez antes de terminar o efeito de Garrote Aprimorado. Ajuste a antecedência de 0,5 a 5 segundos em `/mrr`. O padrão é 1,5 segundo. Se o jogo ocultar o temporizador do efeito, o lembrete estima o tempo restante usando a janela de seis segundos após sair de Furtividade. Por padrão, a síntese de voz do WoW anuncia o nome localizado de Garrote.

@@ -5,7 +5,6 @@ local GARROTE = 703
 local IMPROVED_GARROTE = 392401
 local IMPROVED_GARROTE_TALENT = 381632
 local POST_STEALTH_DURATION = 6
-local WARNING_LEAD = 1.5
 
 addon.garroteSpellID = GARROTE
 addon.improvedGarroteSpellID = IMPROVED_GARROTE
@@ -97,7 +96,7 @@ local function UpdateWarning()
         return
     end
 
-    local delay = expiration - now - WARNING_LEAD
+    local delay = expiration - now - addon.settings.improvedGarroteLeadTime
     if delay <= 0 then
         CancelTimer()
         warned = true

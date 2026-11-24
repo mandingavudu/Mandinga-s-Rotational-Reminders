@@ -65,6 +65,34 @@ local function RegisterReminder(category, layout, reminder)
         }, CreateRadio, IsSelected, SetSelected, useHighlightStyle)
         CooldownViewerUtil.BuildSoundMenus(rootDescription, IsSelected, SetSelected, useHighlightStyle)
     end
+    return enabledControl, enabledSetting
+end
+
+local function RegisterImprovedGarroteTiming(category, enabledControl, enabledSetting)
+    local minLead, maxLead, defaultLead = 0.5, 5, 1.5
+    local settings = addon.settings
+    local lead = settings.improvedGarroteLeadTime
+    if type(lead) ~= "number" or not (lead >= minLead and lead <= maxLead) then
+        settings.improvedGarroteLeadTime = defaultLead
+    end
+
+    local label = isPortuguese and "Tempo de antecedência" or "Seconds before expiration"
+    local tooltip = isPortuguese
+        and "Define quantos segundos antes do fim de Garrote Aprimorado o aviso toca."
+        or "Sets how many seconds before Improved Garrote expires the alert plays."
+    local setting = Settings.RegisterAddOnSetting(category, addonName .. "_IMPROVED_GARROTE_LEAD_TIME",
+        "improvedGarroteLeadTime", settings, Settings.VarType.Number, label, defaultLead)
+
+    local options = Settings.CreateSliderOptions(minLead, maxLead, 0.1)
+    options:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Right, function(value)
+        local seconds = ("%.1f s"):format(value)
+        return isPortuguese and (seconds:gsub("%.", ",")) or seconds
+    end)
+    local control = Settings.CreateSlider(category, setting, options, tooltip)
+    control:Indent()
+    control:SetParentInitializer(enabledControl, function()
+        return enabledSetting:GetValue()
+    end)
 end
 
 local function RegisterOptions()
@@ -85,7 +113,7 @@ local function RegisterOptions()
             or "Plays an alert when Shadow Dance ends while Shadow Blades is still active.",
         refreshTracking = addon.RefreshShadowDanceTracking,
     })
-    RegisterReminder(category, layout, {
+    local garroteEnabledControl, garroteEnabledSetting = RegisterReminder(category, layout, {
         key = "improvedGarrote",
         variable = "IMPROVED_GARROTE",
         spellID = addon.improvedGarroteSpellID,
@@ -93,12 +121,13 @@ local function RegisterOptions()
         section = isPortuguese and "Ladino de Assassinato" or "Assassination Rogue",
         fallbackName = isPortuguese and "Garrote Aprimorado" or "Improved Garrote",
         tooltip = isPortuguese
-            and "Toca um aviso 1,5 segundo antes de terminar o efeito de Garrote Aprimorado."
+            and "Toca um aviso antes de terminar o efeito de Garrote Aprimorado."
                 .. " A síntese de voz (TTS) usa o nome localizado da habilidade Garrote."
-            or "Plays an alert 1.5 seconds before your Improved Garrote buff expires."
+            or "Plays an alert before your Improved Garrote buff expires."
                 .. " Text-to-speech (TTS) uses the localized name of the Garrote spell.",
         refreshTracking = addon.RefreshImprovedGarroteTracking,
     })
+    RegisterImprovedGarroteTiming(category, garroteEnabledControl, garroteEnabledSetting)
 
     Settings.RegisterAddOnCategory(category)
     SLASH_MANDINGASROTATIONALREMINDERS1 = "/mrr"
