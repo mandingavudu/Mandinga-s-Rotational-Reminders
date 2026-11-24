@@ -7,4 +7,5 @@
 
 Audio.lua
 Rogue\ShadowDance.lua
+Rogue\ImprovedGarrote.lua
 Options.lua
