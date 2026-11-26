@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.2
+
+- Add an MIT license with the 2026 mandingavudu copyright notice.
+
 ## 1.3.1
 
 - Sync the CurseForge project description from the released README after each successful upload. The release workflow also supports manual description-only updates.
