@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.1
+
+- Sync the CurseForge project description from the released README after each successful upload. The release workflow also supports manual description-only updates.
+
 ## 1.3.0
 
 - Move Rogue reminders into a class subpage grouped by specialization. `/mrr` opens the main page, where the global sound setting is under **Audio**.
