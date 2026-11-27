@@ -1,7 +1,16 @@
 ## Interface: 120105
 ## Title: Mandinga's Rotational Reminders
 ## Notes: A collection of class- and specialization-specific rotation reminders with configurable audio alerts.
+## Notes-deDE: Sammlung von Rotationserinnerungen für Klassen und Spezialisierungen mit einstellbaren Warntönen.
+## Notes-esES: Colección de recordatorios de rotación por clase y especialización con alertas sonoras configurables.
+## Notes-esMX: Colección de recordatorios de rotación por clase y especialización con alertas de sonido configurables.
+## Notes-frFR: Collection de rappels de rotation par classe et spécialisation avec des alertes sonores configurables.
+## Notes-itIT: Raccolta di promemoria di rotazione per classe e specializzazione con avvisi sonori configurabili.
+## Notes-koKR: 직업과 전문화별 기술 사용 알림을 제공하며, 경고음을 설정할 수 있습니다.
 ## Notes-ptBR: Coleção de lembretes de rotação por classe e especialização com alertas sonoros configuráveis.
+## Notes-ruRU: Набор напоминаний о ротации для классов и специализаций с настраиваемыми звуковыми оповещениями.
+## Notes-zhCN: 提供按职业和专精划分的技能循环提醒，支持自定义提醒音效。
+## Notes-zhTW: 提供依職業和專精區分的技能循環提醒，可自訂提醒音效。
 ## Version: @project-version@
 ## X-Curse-Project-ID: 1826447
 ## SavedVariables: MandingasRotationalRemindersDB
