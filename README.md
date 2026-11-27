@@ -4,6 +4,8 @@
 
 A collection of class- and specialization-specific rotation reminders for World of Warcraft Retail.
 
+Settings, tooltips, and custom text-to-speech phrases follow your Retail client language.
+
 Open **Options → AddOns → Mandinga's Rotational Reminders** or type `/mrr` to open the main settings page. Open the **Rogue** subpage to toggle reminders and choose their sounds. By default, every reminder uses text-to-speech (TTS) to announce its localized spell name. The sound picker includes the Cooldown Manager catalog when available. Sound effects play through **Gameplay SFX**.
 
 Under **Audio**, **Duplicate non-TTS sounds** plays two simultaneous copies of each alert sound effect for extra volume. It is enabled by default. Text-to-speech plays once per alert.
@@ -39,7 +41,7 @@ Plays an alert once before the `Improved Garrote` buff expires. Set the lead tim
 - `Keep It Rolling` alerts when it finishes recharging with a stage 3 or 4 roll, or when a new roll of stage 3 or 4 is applied while it is ready. The sound picker also offers the Jackpot sound from the Liberation of Undermine tier sets.
 - `Preparation` checks after you cast `Adrenaline Rush`, `Killing Spree`, or `Blade Rush`. It alerts if `Preparation` is ready and all three spells are on cooldown.
 
-`Roll the Bones` and `Keep It Rolling` offer the short text-to-speech phrases “Roll” and “Jackpot” in their sound pickers. A stage-based alert can play later in the same roll if Retail exposes the stage after the trigger.
+In English, `Roll the Bones` and `Keep It Rolling` offer the short text-to-speech phrases “Roll” and “Jackpot” in their sound pickers. A stage-based alert can play later in the same roll if Retail exposes the stage after the trigger.
 
 ### Tips
 
@@ -48,6 +50,8 @@ If several TTS reminders from this addon, other addons, or the Cooldown Manager 
 ## Português (Brasil)
 
 Uma coleção de lembretes de rotação por classe e especialização para World of Warcraft Retail.
+
+As configurações, as dicas de interface e as frases personalizadas de texto em fala seguem o idioma do seu cliente Retail.
 
 Abra **Opções → AddOns → Mandinga's Rotational Reminders** ou digite `/mrr` para abrir a página principal de configurações. Na subpágina **Ladino**, você pode ativar ou desativar os lembretes e escolher seus sons. Por padrão, todos os lembretes anunciam o nome localizado da habilidade por texto em fala (TTS). O seletor inclui o catálogo do Gerenciador de Recarga quando disponível. Os efeitos sonoros usam a categoria **Gameplay SFX**.
 
@@ -84,7 +88,7 @@ Toca um aviso uma vez antes de terminar o efeito de `Garrote Aprimorado`. Ajuste
 - `Sorte Grande` avisa quando a recarga acaba com um resultado de `Golpe de Sorte` no estágio 3 ou 4, ou quando você obtém um resultado nesses estágios com `Sorte Grande` pronta. O seletor também oferece o som de jackpot dos conjuntos de classe da Libertação da Inframina.
 - `Preparação` verifica as recargas após você usar `Adrenalina`, `Matança` ou `Ímpeto da Lâmina`. Avisa se `Preparação` estiver pronta e as três habilidades estiverem em recarga.
 
-`Golpe de Sorte` e `Sorte Grande` oferecem as frases curtas “Role” e “Jackpot” no seletor de sons. Se o Retail revelar o estágio com atraso, o aviso ainda pode tocar durante a mesma rolagem.
+Em português do Brasil, `Golpe de Sorte` e `Sorte Grande` oferecem as frases curtas “Role” e “Jackpot” no seletor de sons. Se o Retail revelar o estágio com atraso, o aviso ainda pode tocar durante a mesma rolagem.
 
 ### Dicas
 
