@@ -1,8 +1,8 @@
 local _, addon = ...
 
+local L = addon.L
 local CDM_SOUND_SUBTYPE = "Gameplay SFX"
 local TEXT_TO_SPEECH = Enum.CooldownViewerSound.TextToSpeech
-local isPortuguese = GetLocale() == "ptBR"
 local JACKPOT_SOUND_KIT_ID = 283499 -- Liberation of Undermine tier set proc
 local ROLL_THE_BONES_SOUND_KIT_ID = 58682
 
@@ -13,8 +13,8 @@ addon.KEEP_IT_ROLLING_TTS = -4
 addon.GARROTE_TTS = -5
 
 local shortTTSPhrases = {
-    [addon.ROLL_THE_BONES_TTS] = isPortuguese and "Role" or "Roll",
-    [addon.KEEP_IT_ROLLING_TTS] = "Jackpot",
+    [addon.ROLL_THE_BONES_TTS] = L.ROLL_THE_BONES_TTS,
+    [addon.KEEP_IT_ROLLING_TTS] = L.KEEP_IT_ROLLING_TTS,
 }
 
 function addon.GetReminderSpellName(spellID)

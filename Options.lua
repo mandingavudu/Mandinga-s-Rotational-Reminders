@@ -1,13 +1,13 @@
 local addonName, addon = ...
 
+local L = addon.L
 local TEXT_TO_SPEECH = Enum.CooldownViewerSound.TextToSpeech
-local isPortuguese = GetLocale() == "ptBR"
 local textToSpeechLabel = COOLDOWN_VIEWER_SETTINGS_ALERT_LABEL_SOUND_TYPE_TEXT_TO_SPEECH or TEXT_TO_SPEECH_LABEL
-    or (isPortuguese and "Texto em Fala" or "Text-to-Speech")
-local soundLabel = COOLDOWN_VIEWER_SETTINGS_ALERT_TYPE_SOUND or (isPortuguese and "Som do aviso" or "Alert sound")
+    or L.TEXT_TO_SPEECH
+local soundLabel = COOLDOWN_VIEWER_SETTINGS_ALERT_TYPE_SOUND or L.ALERT_SOUND
 
-local function GetSettingsSpellName(spellID, englishName, portugueseName)
-    return addon.GetReminderSpellName(spellID) or (isPortuguese and portugueseName or englishName)
+local function GetSettingsSpellName(spellID, fallbackName)
+    return addon.GetReminderSpellName(spellID) or fallbackName
 end
 
 local function RegisterReminder(category, reminder)
@@ -22,7 +22,7 @@ local function RegisterReminder(category, reminder)
         settings[soundKey] = TEXT_TO_SPEECH
     end
     local spellName = reminder.spellName
-    local enabledLabel = (isPortuguese and "Ativar lembrete de %s" or "Enable %s reminder"):format(spellName)
+    local enabledLabel = L.ENABLE_REMINDER:format(spellName)
     local enabledSetting = Settings.RegisterAddOnSetting(category, variable .. "_ENABLED",
         enabledKey, settings, Settings.VarType.Boolean, enabledLabel, true)
     local enabledControl = Settings.CreateCheckbox(category, enabledSetting, reminder.tooltip)
@@ -107,15 +107,12 @@ local function RegisterImprovedGarroteTiming(category, enabledControl, enabledSe
         settings.improvedGarroteLeadTime = defaultLead
     end
 
-    local label = isPortuguese and "Tempo de antecedência" or "Seconds before expiration"
-    local tooltip = (isPortuguese
-        and "Define quantos segundos antes do fim de %s o aviso toca."
-        or "Sets how many seconds before %s expires the alert plays."):format(spellName)
+    local tooltip = L.IMPROVED_GARROTE_LEAD_TIME_TOOLTIP:format(spellName)
     local setting = Settings.RegisterAddOnSetting(category, addonName .. "_IMPROVED_GARROTE_LEAD_TIME",
-        "improvedGarroteLeadTime", settings, Settings.VarType.Number, label, defaultLead)
+        "improvedGarroteLeadTime", settings, Settings.VarType.Number, L.IMPROVED_GARROTE_LEAD_TIME, defaultLead)
 
     local options = Settings.CreateSliderOptions(minLead, maxLead, 0.1)
-    local decimalSeparator = DECIMAL_SEPERATOR or (isPortuguese and "," or ".")
+    local decimalSeparator = DECIMAL_SEPERATOR or L.DECIMAL_SEPARATOR
     options:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Right, function(value)
         return (("%.1f s"):format(value):gsub("[.,]", decimalSeparator))
     end)
@@ -130,87 +127,72 @@ local function RegisterRogueOptions(parentCategory)
     local category, layout = Settings.RegisterVerticalLayoutSubcategory(parentCategory, LOCALIZED_CLASS_NAMES_MALE.ROGUE)
     local _, subtletyName = GetSpecializationInfoForSpecID(261)
     layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(subtletyName))
-    local shadowDanceName = GetSettingsSpellName(addon.shadowDanceSpellID, "Shadow Dance", "Dança das Sombras")
-    local shadowBladesName = GetSettingsSpellName(addon.shadowBladesSpellID, "Shadow Blades", "Lâminas Sombrias")
+    local shadowDanceName = GetSettingsSpellName(addon.shadowDanceSpellID, L.SHADOW_DANCE)
+    local shadowBladesName = GetSettingsSpellName(addon.shadowBladesSpellID, L.SHADOW_BLADES)
     RegisterReminder(category, {
         key = "shadowDance",
         variable = "SHADOW_DANCE",
         spellID = addon.shadowDanceSpellID,
         spellName = shadowDanceName,
-        tooltip = (isPortuguese
-            and "Toca um aviso quando %s termina e o efeito de %s permanece ativo."
-            or "Plays an alert when %s ends while %s is still active."):format(shadowDanceName, shadowBladesName),
+        tooltip = L.SHADOW_DANCE_TOOLTIP:format(shadowDanceName, shadowBladesName),
         refreshTracking = addon.RefreshShadowDanceTracking,
     })
     local _, assassinationName = GetSpecializationInfoForSpecID(259)
     layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(assassinationName))
-    local improvedGarroteName = GetSettingsSpellName(addon.improvedGarroteSpellID, "Improved Garrote", "Garrote Aprimorado")
-    local garroteName = GetSettingsSpellName(addon.garroteSpellID, "Garrote")
+    local improvedGarroteName = GetSettingsSpellName(addon.improvedGarroteSpellID, L.IMPROVED_GARROTE)
+    local garroteName = GetSettingsSpellName(addon.garroteSpellID, L.GARROTE)
     local garroteEnabledControl, garroteEnabledSetting = RegisterReminder(category, {
         key = "improvedGarrote",
         variable = "IMPROVED_GARROTE",
         spellID = addon.improvedGarroteSpellID,
         alternateTTSSound = addon.GARROTE_TTS,
         spellName = improvedGarroteName,
-        tooltip = (isPortuguese
-            and "Toca um aviso antes de terminar o efeito de %s."
-                .. " As opções de texto em fala (TTS) usam os nomes localizados de %s (padrão) e %s."
-            or "Plays an alert before your %s buff expires."
-                .. " The text-to-speech (TTS) options use the localized names of %s (default) and %s.")
-                :format(improvedGarroteName, improvedGarroteName, garroteName),
+        tooltip = L.IMPROVED_GARROTE_TOOLTIP:format(improvedGarroteName, improvedGarroteName, garroteName),
         refreshTracking = addon.RefreshImprovedGarroteTracking,
     })
     RegisterImprovedGarroteTiming(category, garroteEnabledControl, garroteEnabledSetting, improvedGarroteName)
 
     local _, outlawName = GetSpecializationInfoForSpecID(260)
     layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(outlawName))
-    local rollTheBonesName = GetSettingsSpellName(addon.rollTheBonesSpellID, "Roll the Bones", "Golpe de Sorte")
-    local loadedDiceName = GetSettingsSpellName(addon.loadedDiceSpellID, "Loaded Dice", "Dados Viciados")
+    local rollTheBonesName = GetSettingsSpellName(addon.rollTheBonesSpellID, L.ROLL_THE_BONES)
+    local loadedDiceName = GetSettingsSpellName(addon.loadedDiceSpellID, L.LOADED_DICE)
     RegisterReminder(category, {
         key = "rollTheBones",
         variable = "ROLL_THE_BONES",
         spellID = addon.rollTheBonesSpellID,
         spellName = rollTheBonesName,
         customSound = addon.ROLL_THE_BONES_CAST_SOUND,
-        customSoundLabel = (isPortuguese and "Som de %s" or "%s cast sound"):format(rollTheBonesName),
+        customSoundLabel = L.ROLL_THE_BONES_CAST_SOUND:format(rollTheBonesName),
         alternateTTSSound = addon.ROLL_THE_BONES_TTS,
-        tooltip = (isPortuguese
-            and "Avisa quando a habilidade %s está pronta e faltam 2 segundos para o efeito terminar. Ao entrar em combate ou ao terminar a recarga, avisa se a habilidade estiver pronta e você estiver sem efeito ativo, no estágio 1 ou no estágio 2 com o bônus de %s ativo."
-            or "Alerts when %s is ready and the buff has 2 seconds remaining. On combat entry or recharge, it alerts if the spell is ready and you have no active roll, a stage 1 roll, or a stage 2 roll with %s active.")
-                :format(rollTheBonesName, loadedDiceName),
+        tooltip = L.ROLL_THE_BONES_TOOLTIP:format(rollTheBonesName, loadedDiceName),
         refreshTracking = addon.RefreshCooldownReminderTracking,
     })
-    local keepItRollingName = GetSettingsSpellName(addon.keepItRollingSpellID, "Keep It Rolling", "Sorte Grande")
+    local keepItRollingName = GetSettingsSpellName(addon.keepItRollingSpellID, L.KEEP_IT_ROLLING)
     local undermine = C_Map.GetMapInfo(2346)
-    local undermineName = undermine and undermine.name or (isPortuguese and "Inframina" or "Undermine")
+    local undermineName = undermine and undermine.name or L.UNDERMINE
     RegisterReminder(category, {
         key = "keepItRolling",
         variable = "KEEP_IT_ROLLING",
         spellID = addon.keepItRollingSpellID,
         spellName = keepItRollingName,
         customSound = addon.JACKPOT_SOUND,
-        customSoundLabel = (isPortuguese and "Jackpot da %s" or "%s Jackpot"):format(undermineName),
+        customSoundLabel = L.UNDERMINE_JACKPOT_SOUND:format(undermineName),
         alternateTTSSound = addon.KEEP_IT_ROLLING_TTS,
-        tooltip = (isPortuguese
-            and "Avisa quando %s termina a recarga com um resultado de %s no estágio 3 ou superior, ou quando você obtém um resultado nesses estágios com a habilidade pronta."
-            or "Alerts when %s finishes recharging with a stage 3 or higher %s roll, or when a new roll of stage 3 or higher is applied while the spell is ready.")
-                :format(keepItRollingName, rollTheBonesName),
+        tooltip = L.KEEP_IT_ROLLING_TOOLTIP:format(keepItRollingName, rollTheBonesName),
         refreshTracking = addon.RefreshCooldownReminderTracking,
     })
-    local preparationName = GetSettingsSpellName(addon.preparationSpellID, "Preparation", "Preparação")
+    local preparationName = GetSettingsSpellName(addon.preparationSpellID, L.PREPARATION)
     local preparationCooldowns = addon.preparationCooldownSpellIDs
     RegisterReminder(category, {
         key = "preparation",
         variable = "PREPARATION",
         spellID = addon.preparationSpellID,
         spellName = preparationName,
-        tooltip = (isPortuguese
-            and "Verifica as recargas após você usar %s, %s ou %s. Avisa se %s estiver pronta e as três habilidades estiverem em recarga."
-            or "Checks after casting %s, %s, or %s. Alerts if %s is ready and all three spells are on cooldown."):format(
-                GetSettingsSpellName(preparationCooldowns[1], "Adrenaline Rush", "Adrenalina"),
-                GetSettingsSpellName(preparationCooldowns[2], "Killing Spree", "Matança"),
-                GetSettingsSpellName(preparationCooldowns[3], "Blade Rush", "Ímpeto da Lâmina"),
-                preparationName),
+        tooltip = L.PREPARATION_TOOLTIP:format(
+            GetSettingsSpellName(preparationCooldowns[1], L.ADRENALINE_RUSH),
+            GetSettingsSpellName(preparationCooldowns[2], L.KILLING_SPREE),
+            GetSettingsSpellName(preparationCooldowns[3], L.BLADE_RUSH),
+            preparationName),
         refreshTracking = addon.RefreshCooldownReminderTracking,
     })
 
@@ -230,13 +212,9 @@ local function RegisterOptions()
     if type(settings.duplicateSoundEffects) ~= "boolean" then
         settings.duplicateSoundEffects = true
     end
-    local duplicateLabel = isPortuguese and "Duplicar sons sem TTS" or "Duplicate non-TTS sounds"
-    local duplicateTooltip = isPortuguese
-        and "Toca duas cópias simultâneas do efeito sonoro do addon para aumentar o volume. O texto em fala toca uma vez por aviso."
-        or "Plays two simultaneous copies of each alert sound effect for extra volume. Text-to-speech plays once per alert."
     local duplicateSetting = Settings.RegisterAddOnSetting(category, addonName .. "_DUPLICATE_SOUND_EFFECTS",
-        "duplicateSoundEffects", settings, Settings.VarType.Boolean, duplicateLabel, true)
-    Settings.CreateCheckbox(category, duplicateSetting, duplicateTooltip)
+        "duplicateSoundEffects", settings, Settings.VarType.Boolean, L.DUPLICATE_SOUND_EFFECTS, true)
+    Settings.CreateCheckbox(category, duplicateSetting, L.DUPLICATE_SOUND_EFFECTS_TOOLTIP)
 
     Settings.RegisterAddOnCategory(category)
     RegisterRogueOptions(category)
