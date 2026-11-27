@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.0
+
+- Localize the addon list description, settings, tooltips, and custom text-to-speech phrases for all Retail client languages.
+
 ## 1.3.2
 
 - Add an MIT license with the 2026 mandingavudu copyright notice.
